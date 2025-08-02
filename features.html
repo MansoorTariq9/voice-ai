@@ -1,0 +1,920 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Features - AI Voice Agents Platform</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f8f9fa;
+            min-height: 100vh;
+            color: #1d1d1f;
+        }
+        
+        /* Header */
+        .header {
+            background-color: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 20px 40px;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 30px;
+            align-items: center;
+        }
+        
+        .nav-link {
+            color: #6e6e73;
+            text-decoration: none;
+            font-size: 16px;
+            transition: color 0.3s;
+        }
+        
+        .nav-link:hover {
+            color: #667eea;
+        }
+        
+        .nav-link.active {
+            color: #667eea;
+            font-weight: 500;
+        }
+        
+        .btn-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 10px 24px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        .btn-header:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+        }
+        
+        /* Hero Section */
+        .hero-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 120px 40px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 1px, transparent 1px);
+            background-size: 50px 50px;
+            animation: moveGrid 20s linear infinite;
+        }
+        
+        @keyframes moveGrid {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(50px, 50px); }
+        }
+        
+        .hero-title {
+            font-size: 56px;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 24px;
+            position: relative;
+            z-index: 1;
+            animation: fadeInUp 0.8s ease-out;
+        }
+        
+        .hero-subtitle {
+            font-size: 24px;
+            color: rgba(255, 255, 255, 0.9);
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.6;
+            position: relative;
+            z-index: 1;
+            animation: fadeInUp 0.8s ease-out 0.2s;
+            animation-fill-mode: both;
+        }
+        
+        /* Feature Categories */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 80px 40px;
+        }
+        
+        .feature-category {
+            margin-bottom: 100px;
+            animation: fadeIn 0.8s ease-out;
+            animation-fill-mode: both;
+        }
+        
+        .category-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+        
+        .category-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            margin: 0 auto 24px;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+        }
+        
+        .category-title {
+            font-size: 42px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: #1d1d1f;
+        }
+        
+        .category-description {
+            font-size: 20px;
+            color: #6e6e73;
+            max-width: 700px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+        
+        /* Feature Grid */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+        }
+        
+        .feature-card {
+            background: white;
+            border-radius: 16px;
+            padding: 40px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            transform: scaleX(0);
+            transition: transform 0.3s;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.12);
+        }
+        
+        .feature-card:hover::before {
+            transform: scaleX(1);
+        }
+        
+        .feature-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            margin-bottom: 24px;
+        }
+        
+        .feature-title {
+            font-size: 22px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: #1d1d1f;
+        }
+        
+        .feature-description {
+            font-size: 16px;
+            color: #6e6e73;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+        
+        .feature-highlights {
+            list-style: none;
+        }
+        
+        .feature-highlights li {
+            padding: 8px 0;
+            color: #1d1d1f;
+            font-size: 14px;
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+        }
+        
+        .feature-highlights li::before {
+            content: "•";
+            color: #667eea;
+            font-weight: bold;
+            margin-top: 2px;
+        }
+        
+        /* Integration Section */
+        .integrations-section {
+            background: linear-gradient(135deg, #f5f7fa 0%, #e3e6eb 100%);
+            padding: 80px 40px;
+            border-radius: 30px;
+            margin: 80px 0;
+        }
+        
+        .integrations-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+        
+        .integration-item {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            text-align: center;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+        
+        .integration-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        .integration-logo {
+            width: 60px;
+            height: 60px;
+            margin: 0 auto 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            color: #667eea;
+        }
+        
+        .integration-name {
+            font-size: 16px;
+            font-weight: 500;
+            color: #1d1d1f;
+        }
+        
+        /* Stats Section */
+        .stats-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 80px 40px;
+            border-radius: 30px;
+            margin: 80px 0;
+            text-align: center;
+            color: white;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-top: 50px;
+        }
+        
+        .stat-item {
+            padding: 30px;
+        }
+        
+        .stat-number {
+            font-size: 48px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        
+        .stat-label {
+            font-size: 18px;
+            opacity: 0.9;
+        }
+        
+        /* Security Section */
+        .security-section {
+            background: white;
+            padding: 80px 40px;
+            border-radius: 30px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+        }
+        
+        .security-badges {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            flex-wrap: wrap;
+            margin-top: 40px;
+        }
+        
+        .security-badge {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .badge-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 36px;
+        }
+        
+        .badge-label {
+            font-size: 16px;
+            font-weight: 500;
+            color: #1d1d1f;
+        }
+        
+        /* CTA Section */
+        .cta-section {
+            background: linear-gradient(135deg, #1d1d1f 0%, #2d2d2f 100%);
+            padding: 100px 40px;
+            text-align: center;
+            border-radius: 30px;
+            margin: 80px 0;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .cta-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(102, 126, 234, 0.1) 0%, transparent 70%);
+            animation: rotate 30s linear infinite;
+        }
+        
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        .cta-title {
+            font-size: 48px;
+            font-weight: 600;
+            color: white;
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .cta-text {
+            font-size: 20px;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 40px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .cta-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .cta-btn {
+            padding: 16px 32px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+        
+        .cta-btn.primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        
+        .cta-btn.secondary {
+            background: white;
+            color: #1d1d1f;
+        }
+        
+        .cta-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        
+        /* Animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 36px;
+            }
+            
+            .hero-subtitle {
+                font-size: 18px;
+            }
+            
+            .category-title {
+                font-size: 32px;
+            }
+            
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <div class="logo">AI Voice Agents</div>
+            <nav class="nav-links">
+                <a href="home.html" class="nav-link">Home</a>
+                <a href="features.html" class="nav-link active">Features</a>
+                <a href="#" class="nav-link">Pricing</a>
+                <a href="documentation.html" class="nav-link">Documentation</a>
+                <a href="home.html#agents" class="btn-header">Get Started</a>
+            </nav>
+        </div>
+    </header>
+    
+    <section class="hero-section">
+        <h1 class="hero-title">Powerful Features for Every Call</h1>
+        <p class="hero-subtitle">
+            Discover the comprehensive capabilities that make our AI Voice Agents the most advanced solution for automated communication
+        </p>
+    </section>
+    
+    <div class="container">
+        <!-- Core AI Capabilities -->
+        <div class="feature-category">
+            <div class="category-header">
+                <div class="category-icon">🧠</div>
+                <h2 class="category-title">Core AI Capabilities</h2>
+                <p class="category-description">
+                    Advanced artificial intelligence that understands context, emotion, and intent to deliver human-like conversations
+                </p>
+            </div>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🗣️</div>
+                    <h3 class="feature-title">Natural Language Processing</h3>
+                    <p class="feature-description">
+                        State-of-the-art NLP engine that understands complex queries, slang, and context
+                    </p>
+                    <ul class="feature-highlights">
+                        <li>Multi-language support (30+ languages)</li>
+                        <li>Accent and dialect recognition</li>
+                        <li>Context-aware responses</li>
+                        <li>Intent classification</li>
+                    </ul>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">🎭</div>
+                    <h3 class="feature-title">Sentiment Analysis</h3>
+                    <p class="feature-description">
+                        Real-time emotion detection to adapt conversation tone and escalate when needed
+                    </p>
+                    <ul class="feature-highlights">
+                        <li>Emotional state tracking</li>
+                        <li>Frustration detection</li>
+                        <li>Empathetic responses</li>
+                        <li>Automatic escalation triggers</li>
+                    </ul>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">🎯</div>
+                    <h3 class="feature-title">Intent Recognition</h3>
+                    <p class="feature-description">
+                        Accurately identify caller needs and route conversations to the right outcome
+                    </p>
+                    <ul class="feature-highlights">
+                        <li>Multi-intent detection</li>
+                        <li>Confidence scoring</li>
+                        <li>Clarification prompts</li>
+                        <li>Intent-based routing</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Voice & Audio Features -->
+        <div class="feature-category">
+            <div class="category-header">
+                <div class="category-icon">🎙️</div>
+                <h2 class="category-title">Voice & Audio Excellence</h2>
+                <p class="category-description">
+                    Crystal-clear voice synthesis and recognition for natural, engaging conversations
+                </p>
+            </div>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🔊</div>
+                    <h3 class="feature-title">Premium Voice Synthesis</h3>
+                    <p class="feature-description">
+                        Choose from multiple natural-sounding voices with customizable characteristics
+                    </p>
+                    <ul class="feature-highlights">
+                        <li>20+ voice options</li>
+                        <li>Adjustable speed and pitch</li>
+                        <li>Emotional tone modulation</li>
+                        <li>Brand voice customization</li>
+                    </ul>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">🎧</div>
+                    <h3 class="feature-title">Advanced Speech Recognition</h3>
+                    <p class="feature-description">
+                        Industry-leading accuracy in understanding spoken words across all conditions
+                    </p>
+                    <ul class="feature-highlights">
+                        <li>99%+ accuracy rate</li>
+                        <li>Background noise filtering</li>
+                        <li>Multiple speaker detection</li>
+                        <li>Real-time transcription</li>
+                    </ul>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">⏸️</div>
+                    <h3 class="feature-title">Smart Interruption Handling</h3>
+                    <p class="feature-description">
+                        Natural conversation flow with intelligent pause detection and interruption management
+                    </p>
+                    <ul class="feature-highlights">
+                        <li>Barge-in capability</li>
+                        <li>Natural pause detection</li>
+                        <li>Turn-taking management</li>
+                        <li>Conversation flow control</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Knowledge Management -->
+        <div class="feature-category">
+            <div class="category-header">
+                <div class="category-icon">📚</div>
+                <h2 class="category-title">Knowledge Management</h2>
+                <p class="category-description">
+                    Build comprehensive knowledge bases that empower your agents with accurate, up-to-date information
+                </p>
+            </div>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">📄</div>
+                    <h3 class="feature-title">Document Processing</h3>
+                    <p class="feature-description">
+                        Upload and process documents to create searchable knowledge bases instantly
+                    </p>
+                    <ul class="feature-highlights">
+                        <li>PDF, DOC, TXT support</li>
+                        <li>Automatic content extraction</li>
+                        <li>Smart indexing</li>
+                        <li>Version control</li>
+                    </ul>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">🌐</div>
+                    <h3 class="feature-title">Website Integration</h3>
+                    <p class="feature-description">
+                        Automatically crawl and index your website content for real-time information access
+                    </p>
+                    <ul class="feature-highlights">
+                        <li>Live website scraping</li>
+                        <li>Automatic updates</li>
+                        <li>Structured data parsing</li>
+                        <li>FAQ extraction</li>
+                    </ul>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">🔍</div>
+                    <h3 class="feature-title">Intelligent Search</h3>
+                    <p class="feature-description">
+                        Semantic search capabilities to find the most relevant information quickly
+                    </p>
+                    <ul class="feature-highlights">
+                        <li>Contextual understanding</li>
+                        <li>Relevance ranking</li>
+                        <li>Synonym recognition</li>
+                        <li>Multi-source aggregation</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Automation & Workflows -->
+        <div class="feature-category">
+            <div class="category-header">
+                <div class="category-icon">⚡</div>
+                <h2 class="category-title">Automation & Workflows</h2>
+                <p class="category-description">
+                    Streamline operations with intelligent automation and customizable workflows
+                </p>
+            </div>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">📅</div>
+                    <h3 class="feature-title">Calendar Integration</h3>
+                    <p class="feature-description">
+                        Seamlessly book, reschedule, and manage appointments across all major calendar platforms
+                    </p>
+                    <ul class="feature-highlights">
+                        <li>Google Calendar sync</li>
+                        <li>Outlook integration</li>
+                        <li>Availability checking</li>
+                        <li>Timezone handling</li>
+                    </ul>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">🔄</div>
+                    <h3 class="feature-title">Smart Call Routing</h3>
+                    <p class="feature-description">
+                        Intelligent routing based on caller needs, agent availability, and business rules
+                    </p>
+                    <ul class="feature-highlights">
+                        <li>Skill-based routing</li>
+                        <li>Priority queuing</li>
+                        <li>Department transfers</li>
+                        <li>Callback scheduling</li>
+                    </ul>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">📊</div>
+                    <h3 class="feature-title">Lead Qualification</h3>
+                    <p class="feature-description">
+                        Automated lead scoring and qualification with customizable criteria
+                    </p>
+                    <ul class="feature-highlights">
+                        <li>Custom scoring models</li>
+                        <li>Qualification questions</li>
+                        <li>Lead prioritization</li>
+                        <li>CRM auto-update</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Analytics & Reporting -->
+        <div class="feature-category">
+            <div class="category-header">
+                <div class="category-icon">📈</div>
+                <h2 class="category-title">Analytics & Insights</h2>
+                <p class="category-description">
+                    Comprehensive analytics to understand performance and optimize your voice agents
+                </p>
+            </div>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">📉</div>
+                    <h3 class="feature-title">Real-time Dashboard</h3>
+                    <p class="feature-description">
+                        Monitor agent performance and call metrics in real-time with customizable dashboards
+                    </p>
+                    <ul class="feature-highlights">
+                        <li>Live call monitoring</li>
+                        <li>Performance metrics</li>
+                        <li>Custom KPIs</li>
+                        <li>Alert notifications</li>
+                    </ul>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">📝</div>
+                    <h3 class="feature-title">Call Transcription</h3>
+                    <p class="feature-description">
+                        Automatic transcription of all calls with searchable archives
+                    </p>
+                    <ul class="feature-highlights">
+                        <li>Real-time transcription</li>
+                        <li>Speaker identification</li>
+                        <li>Keyword highlighting</li>
+                        <li>Export capabilities</li>
+                    </ul>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">🎯</div>
+                    <h3 class="feature-title">Performance Analytics</h3>
+                    <p class="feature-description">
+                        Detailed insights into agent effectiveness and areas for improvement
+                    </p>
+                    <ul class="feature-highlights">
+                        <li>Conversion tracking</li>
+                        <li>Call duration analysis</li>
+                        <li>Success rate metrics</li>
+                        <li>A/B testing support</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Integration Section -->
+    <div class="container">
+        <div class="integrations-section">
+            <div class="category-header">
+                <h2 class="category-title">Seamless Integrations</h2>
+                <p class="category-description">
+                    Connect with your existing tools and workflows
+                </p>
+            </div>
+            
+            <div class="integrations-grid">
+                <div class="integration-item">
+                    <div class="integration-logo">📧</div>
+                    <div class="integration-name">Salesforce</div>
+                </div>
+                <div class="integration-item">
+                    <div class="integration-logo">📊</div>
+                    <div class="integration-name">HubSpot</div>
+                </div>
+                <div class="integration-item">
+                    <div class="integration-logo">📅</div>
+                    <div class="integration-name">Google Calendar</div>
+                </div>
+                <div class="integration-item">
+                    <div class="integration-logo">💬</div>
+                    <div class="integration-name">Slack</div>
+                </div>
+                <div class="integration-item">
+                    <div class="integration-logo">📱</div>
+                    <div class="integration-name">Twilio</div>
+                </div>
+                <div class="integration-item">
+                    <div class="integration-logo">🔧</div>
+                    <div class="integration-name">Zapier</div>
+                </div>
+                <div class="integration-item">
+                    <div class="integration-logo">📈</div>
+                    <div class="integration-name">Pipedrive</div>
+                </div>
+                <div class="integration-item">
+                    <div class="integration-logo">🎯</div>
+                    <div class="integration-name">Custom API</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Stats Section -->
+    <div class="container">
+        <div class="stats-section">
+            <h2 style="font-size: 42px; margin-bottom: 20px;">Trusted by Leading Businesses</h2>
+            <p style="font-size: 20px; opacity: 0.9;">Our platform powers millions of conversations daily</p>
+            
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div class="stat-number">99.9%</div>
+                    <div class="stat-label">Uptime Guarantee</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">50M+</div>
+                    <div class="stat-label">Calls Handled</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">&lt;200ms</div>
+                    <div class="stat-label">Response Time</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">30+</div>
+                    <div class="stat-label">Languages Supported</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Security Section -->
+    <div class="container">
+        <div class="security-section">
+            <div class="category-header">
+                <h2 class="category-title">Enterprise-Grade Security</h2>
+                <p class="category-description">
+                    Your data is protected with industry-leading security measures
+                </p>
+            </div>
+            
+            <div class="security-badges">
+                <div class="security-badge">
+                    <div class="badge-icon">🔒</div>
+                    <div class="badge-label">SOC 2 Compliant</div>
+                </div>
+                <div class="security-badge">
+                    <div class="badge-icon">🛡️</div>
+                    <div class="badge-label">GDPR Ready</div>
+                </div>
+                <div class="security-badge">
+                    <div class="badge-icon">🔐</div>
+                    <div class="badge-label">End-to-End Encryption</div>
+                </div>
+                <div class="security-badge">
+                    <div class="badge-icon">✓</div>
+                    <div class="badge-label">HIPAA Compliant</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- CTA Section -->
+    <div class="container">
+        <div class="cta-section">
+            <h2 class="cta-title">Experience the Future of Voice Communication</h2>
+            <p class="cta-text">Start building intelligent voice agents that delight your customers</p>
+            <div class="cta-buttons">
+                <a href="home.html#agents" class="cta-btn primary">Start Free Trial</a>
+                <a href="documentation.html" class="cta-btn secondary">View Documentation</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

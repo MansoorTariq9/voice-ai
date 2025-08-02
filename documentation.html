@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inbound Agent Documentation - AI Voice Agents</title>
+    <title>AI Voice Agents Documentation - Complete Guide</title>
     <style>
         * {
             margin: 0;
@@ -21,7 +21,7 @@
         .hero-section {
             background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(10px);
-            padding: 80px 40px;
+            padding: 100px 40px;
             text-align: center;
             box-shadow: 0 10px 40px rgba(0,0,0,0.1);
             position: relative;
@@ -39,7 +39,7 @@
         }
         
         .hero-title {
-            font-size: 48px;
+            font-size: 56px;
             font-weight: 700;
             margin-bottom: 20px;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -50,57 +50,82 @@
         }
         
         .hero-subtitle {
-            font-size: 20px;
+            font-size: 24px;
             color: #6e6e73;
-            max-width: 800px;
+            max-width: 900px;
             margin: 0 auto 40px;
             line-height: 1.6;
             animation: fadeInUp 0.8s ease-out 0.2s;
             animation-fill-mode: both;
         }
         
-        .back-btn {
+        .hero-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+            animation: fadeInUp 0.8s ease-out 0.4s;
+            animation-fill-mode: both;
+        }
+        
+        .hero-btn {
             display: inline-flex;
             align-items: center;
             gap: 8px;
-            padding: 12px 24px;
+            padding: 14px 28px;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
             text-decoration: none;
             border-radius: 8px;
             font-weight: 500;
             transition: all 0.3s;
-            animation: fadeInUp 0.8s ease-out 0.4s;
-            animation-fill-mode: both;
         }
         
-        .back-btn:hover {
+        .hero-btn.secondary {
+            background: rgba(255, 255, 255, 0.9);
+            color: #667eea;
+            border: 2px solid #667eea;
+        }
+        
+        .hero-btn:hover {
             transform: translateY(-2px);
             box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
         }
         
         .container {
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
-            padding: 60px 40px;
+            padding: 80px 40px;
         }
         
-        .features-grid {
+        .section-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+        
+        .section-header h2 {
+            font-size: 42px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: white;
+        }
+        
+        .section-header p {
+            font-size: 18px;
+            color: rgba(255, 255, 255, 0.8);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        /* Agent Types Section */
+        .agent-types {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
             gap: 30px;
-            margin-bottom: 60px;
-            justify-content: center;
+            margin-bottom: 100px;
         }
         
-        /* Center the last item if it's alone in its row */
-        .feature-card:nth-child(4):nth-last-child(1) {
-            grid-column: 1 / -1;
-            max-width: 450px;
-            margin: 0 auto;
-        }
-        
-        .feature-card {
+        .agent-type-card {
             background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(10px);
             border-radius: 20px;
@@ -109,16 +134,10 @@
             transition: all 0.3s;
             position: relative;
             overflow: hidden;
-            animation: slideIn 0.8s ease-out;
-            animation-fill-mode: both;
+            cursor: pointer;
         }
         
-        .feature-card:nth-child(1) { animation-delay: 0.1s; }
-        .feature-card:nth-child(2) { animation-delay: 0.2s; }
-        .feature-card:nth-child(3) { animation-delay: 0.3s; }
-        .feature-card:nth-child(4) { animation-delay: 0.4s; }
-        
-        .feature-card::before {
+        .agent-type-card::before {
             content: '';
             position: absolute;
             top: 0;
@@ -130,16 +149,16 @@
             transition: transform 0.3s;
         }
         
-        .feature-card:hover {
+        .agent-type-card:hover {
             transform: translateY(-10px);
             box-shadow: 0 20px 60px rgba(0,0,0,0.12);
         }
         
-        .feature-card:hover::before {
+        .agent-type-card:hover::before {
             transform: scaleX(1);
         }
         
-        .feature-icon {
+        .agent-icon {
             width: 80px;
             height: 80px;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -152,25 +171,25 @@
             box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
         }
         
-        .feature-title {
-            font-size: 24px;
+        .agent-type-title {
+            font-size: 28px;
             font-weight: 600;
             margin-bottom: 16px;
             color: #1d1d1f;
         }
         
-        .feature-description {
+        .agent-type-description {
             font-size: 16px;
             line-height: 1.6;
             color: #6e6e73;
-            margin-bottom: 20px;
+            margin-bottom: 24px;
         }
         
-        .feature-list {
+        .agent-features {
             list-style: none;
         }
         
-        .feature-list li {
+        .agent-features li {
             padding: 8px 0;
             color: #1d1d1f;
             display: flex;
@@ -179,32 +198,234 @@
             font-size: 14px;
         }
         
-        .feature-list li::before {
+        .agent-features li::before {
             content: "✓";
             color: #667eea;
             font-weight: bold;
             margin-top: 2px;
         }
         
-        .how-it-works {
+        /* Use Cases Section */
+        .use-cases {
             background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(10px);
             border-radius: 20px;
             padding: 60px;
-            margin-bottom: 60px;
+            margin-bottom: 80px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+        }
+        
+        .use-cases-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+        
+        .use-case {
+            text-align: center;
+            padding: 30px;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.05) 100%);
+            border-radius: 16px;
+            transition: all 0.3s;
+        }
+        
+        .use-case:hover {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+            transform: translateY(-5px);
+        }
+        
+        .use-case-icon {
+            font-size: 48px;
+            margin-bottom: 16px;
+        }
+        
+        .use-case-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #1d1d1f;
+        }
+        
+        .use-case-desc {
+            font-size: 14px;
+            color: #6e6e73;
+            line-height: 1.5;
+        }
+        
+        /* Features Grid */
+        .features-comparison {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 60px;
+            margin-bottom: 80px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+            overflow-x: auto;
+        }
+        
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 40px;
+        }
+        
+        .comparison-table th {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 16px;
+        }
+        
+        .comparison-table th:first-child {
+            border-radius: 10px 0 0 0;
+        }
+        
+        .comparison-table th:last-child {
+            border-radius: 0 10px 0 0;
+        }
+        
+        .comparison-table td {
+            padding: 20px;
+            border-bottom: 1px solid #e5e5e7;
+            font-size: 14px;
+        }
+        
+        .comparison-table tr:hover {
+            background-color: rgba(102, 126, 234, 0.05);
+        }
+        
+        .check-icon {
+            color: #4caf50;
+            font-weight: bold;
+        }
+        
+        /* Implementation Steps */
+        .implementation-steps {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 60px;
+            margin-bottom: 80px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+        }
+        
+        .steps-timeline {
+            display: grid;
+            gap: 40px;
+            margin-top: 40px;
+            position: relative;
+        }
+        
+        .steps-timeline::before {
+            content: '';
+            position: absolute;
+            left: 30px;
+            top: 30px;
+            bottom: 30px;
+            width: 2px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .step-item {
+            display: flex;
+            gap: 30px;
+            align-items: flex-start;
+            position: relative;
+        }
+        
+        .step-number {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: bold;
+            flex-shrink: 0;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+            position: relative;
+            z-index: 1;
+        }
+        
+        .step-content h3 {
+            font-size: 22px;
+            margin-bottom: 12px;
+            color: #1d1d1f;
+        }
+        
+        .step-content p {
+            color: #6e6e73;
+            line-height: 1.6;
+            font-size: 16px;
+        }
+        
+        /* FAQ Section */
+        .faq-section {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 60px;
+            margin-bottom: 80px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+        }
+        
+        .faq-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+        
+        .faq-item {
+            padding: 30px;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.05) 100%);
+            border-radius: 12px;
+            transition: all 0.3s;
+        }
+        
+        .faq-item:hover {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+        }
+        
+        .faq-question {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: #1d1d1f;
+        }
+        
+        .faq-answer {
+            font-size: 14px;
+            color: #6e6e73;
+            line-height: 1.6;
+        }
+        
+        /* CTA Section */
+        .cta-section {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 80px 60px;
+            text-align: center;
             box-shadow: 0 10px 40px rgba(0,0,0,0.08);
             position: relative;
             overflow: hidden;
         }
         
-        .how-it-works::after {
+        .cta-section::before {
             content: '';
             position: absolute;
             top: -50%;
             right: -50%;
             width: 200%;
             height: 200%;
-            background: radial-gradient(circle, rgba(102, 126, 234, 0.05) 0%, transparent 70%);
+            background: radial-gradient(circle, rgba(102, 126, 234, 0.1) 0%, transparent 70%);
             animation: rotate 30s linear infinite;
         }
         
@@ -213,86 +434,29 @@
             to { transform: rotate(360deg); }
         }
         
-        .section-title {
-            font-size: 36px;
+        .cta-title {
+            font-size: 42px;
             font-weight: 600;
-            text-align: center;
-            margin-bottom: 50px;
+            margin-bottom: 20px;
             position: relative;
             z-index: 1;
         }
         
-        .steps {
-            display: grid;
-            gap: 30px;
-            position: relative;
-            z-index: 1;
-        }
-        
-        .step {
-            display: flex;
-            gap: 30px;
-            align-items: flex-start;
-        }
-        
-        .step-number {
-            width: 50px;
-            height: 50px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        .cta-text {
             font-size: 20px;
-            font-weight: bold;
-            flex-shrink: 0;
-            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
-        }
-        
-        .step-content h3 {
-            font-size: 20px;
-            margin-bottom: 10px;
-            color: #1d1d1f;
-        }
-        
-        .step-content p {
             color: #6e6e73;
-            line-height: 1.6;
+            margin-bottom: 40px;
+            position: relative;
+            z-index: 1;
         }
         
-        .capabilities {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            padding: 60px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.08);
-            text-align: center;
-        }
-        
-        .capability-tags {
+        .cta-buttons {
             display: flex;
-            flex-wrap: wrap;
-            gap: 15px;
+            gap: 20px;
             justify-content: center;
-            margin-top: 40px;
-        }
-        
-        .capability-tag {
-            padding: 12px 24px;
-            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
-            border: 2px solid rgba(102, 126, 234, 0.3);
-            border-radius: 30px;
-            font-weight: 500;
-            color: #667eea;
-            transition: all 0.3s;
-        }
-        
-        .capability-tag:hover {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+            flex-wrap: wrap;
+            position: relative;
+            z-index: 1;
         }
         
         @keyframes fadeInUp {
@@ -303,17 +467,6 @@
             to {
                 opacity: 1;
                 transform: translateY(0);
-            }
-        }
-        
-        @keyframes slideIn {
-            from {
-                opacity: 0;
-                transform: translateX(-30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(0);
             }
         }
         
@@ -363,6 +516,28 @@
             33% { transform: translateY(-30px) rotate(120deg); }
             66% { transform: translateY(30px) rotate(240deg); }
         }
+        
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 36px;
+            }
+            
+            .hero-subtitle {
+                font-size: 18px;
+            }
+            
+            .section-header h2 {
+                font-size: 32px;
+            }
+            
+            .agent-types {
+                grid-template-columns: 1fr;
+            }
+            
+            .faq-grid {
+                grid-template-columns: 1fr;
+            }
+        }
     </style>
 </head>
 <body>
@@ -373,134 +548,310 @@
     </div>
     
     <section class="hero-section">
-        <h1 class="hero-title">Inbound Agent Documentation</h1>
+        <h1 class="hero-title">AI Voice Agents Documentation</h1>
         <p class="hero-subtitle">
-            Learn how our AI-powered inbound agents can transform your customer service experience with intelligent call handling, meeting scheduling, and seamless knowledge integration
+            Everything you need to know about deploying intelligent voice agents for inbound and outbound scenarios
         </p>
-        <a href="index.html" class="back-btn">
-            <span>←</span>
-            <span>Back to Configuration</span>
-        </a>
+        <div class="hero-buttons">
+            <a href="home.html" class="hero-btn">
+                <span>🚀</span>
+                <span>Get Started</span>
+            </a>
+            <a href="#agent-types" class="hero-btn secondary">
+                <span>📖</span>
+                <span>Explore Agent Types</span>
+            </a>
+        </div>
     </section>
     
     <div class="container">
-        <div class="features-grid">
-            <div class="feature-card">
-                <div class="feature-icon">📅</div>
-                <h3 class="feature-title">Meeting Booking</h3>
-                <p class="feature-description">
-                    Your AI agent can seamlessly schedule meetings with callers, checking availability and booking appointments directly into your calendar.
+        <div class="section-header">
+            <h2 id="agent-types">Agent Types & Capabilities</h2>
+            <p>Choose the right AI voice agent for your business needs</p>
+        </div>
+        
+        <div class="agent-types">
+            <div class="agent-type-card" onclick="window.location.href='inbound-documentation.html'">
+                <div class="agent-icon">📞</div>
+                <h3 class="agent-type-title">Inbound Agent</h3>
+                <p class="agent-type-description">
+                    Handle incoming calls with intelligent routing, meeting scheduling, and comprehensive knowledge base integration.
                 </p>
-                <ul class="feature-list">
-                    <li>Real-time calendar integration</li>
-                    <li>Intelligent scheduling based on preferences</li>
-                    <li>Automatic confirmation emails</li>
-                    <li>Timezone handling</li>
-                    <li>Rescheduling capabilities</li>
+                <ul class="agent-features">
+                    <li>24/7 Call Answering</li>
+                    <li>Meeting Booking & Calendar Integration</li>
+                    <li>FAQ Handling with Knowledge Base</li>
+                    <li>Smart Call Transfer to Human Agents</li>
+                    <li>Multi-language Support</li>
+                    <li>Real-time Sentiment Analysis</li>
                 </ul>
             </div>
             
-            <div class="feature-card">
-                <div class="feature-icon">💬</div>
-                <h3 class="feature-title">FAQ Handling</h3>
-                <p class="feature-description">
-                    Instantly answer frequently asked questions with accurate, consistent responses based on your predefined knowledge base.
+            <div class="agent-type-card">
+                <div class="agent-icon">📅</div>
+                <h3 class="agent-type-title">Appointment Assistant</h3>
+                <p class="agent-type-description">
+                    Proactively manage appointments with reminders, rescheduling options, and confirmation calls.
                 </p>
-                <ul class="feature-list">
-                    <li>Natural language understanding</li>
-                    <li>Context-aware responses</li>
-                    <li>Multi-language support</li>
-                    <li>Learning from interactions</li>
-                    <li>Custom response templates</li>
+                <ul class="agent-features">
+                    <li>Automated Appointment Reminders</li>
+                    <li>Flexible Rescheduling Options</li>
+                    <li>Confirmation Calls</li>
+                    <li>Calendar Synchronization</li>
+                    <li>No-show Follow-ups</li>
+                    <li>Waitlist Management</li>
                 </ul>
             </div>
             
-            <div class="feature-card">
-                <div class="feature-icon">📚</div>
-                <h3 class="feature-title">Knowledge Base Integration</h3>
-                <p class="feature-description">
-                    Access and utilize information from your website, documents, and custom knowledge bases to provide comprehensive answers.
+            <div class="agent-type-card">
+                <div class="agent-icon">🎯</div>
+                <h3 class="agent-type-title">Lead Qualifier Pro</h3>
+                <p class="agent-type-description">
+                    Intelligently qualify leads with customizable questions and automated scoring for sales prioritization.
                 </p>
-                <ul class="feature-list">
-                    <li>Website content scraping</li>
-                    <li>Document processing (PDF, DOC, TXT)</li>
-                    <li>URL-based knowledge import</li>
-                    <li>Real-time information updates</li>
-                    <li>Smart content retrieval</li>
+                <ul class="agent-features">
+                    <li>Custom Qualification Questions</li>
+                    <li>Lead Scoring & Prioritization</li>
+                    <li>Automated Meeting Booking</li>
+                    <li>CRM Integration</li>
+                    <li>Decision Tree Logic</li>
+                    <li>Real-time Lead Alerts</li>
                 </ul>
             </div>
             
-            <div class="feature-card">
-                <div class="feature-icon">🔄</div>
-                <h3 class="feature-title">Call Transfer</h3>
-                <p class="feature-description">
-                    Intelligently transfer calls to human agents or specific departments when queries exceed AI capabilities or upon caller request.
+            <div class="agent-type-card">
+                <div class="agent-icon">🌐</div>
+                <h3 class="agent-type-title">Universal Outreach</h3>
+                <p class="agent-type-description">
+                    Flexible outbound campaigns for feedback collection, announcements, surveys, and customer check-ins.
                 </p>
-                <ul class="feature-list">
-                    <li>Smart routing based on query type</li>
-                    <li>Seamless handoff with context</li>
-                    <li>Priority-based transfers</li>
-                    <li>Department-specific routing</li>
-                    <li>Call summary for human agents</li>
+                <ul class="agent-features">
+                    <li>Feedback Collection</li>
+                    <li>Event Follow-ups</li>
+                    <li>Customer Satisfaction Surveys</li>
+                    <li>Product Announcements</li>
+                    <li>Service Updates</li>
+                    <li>Custom Campaign Scripts</li>
                 </ul>
             </div>
         </div>
         
-        <div class="how-it-works">
-            <h2 class="section-title">How It Works</h2>
-            <div class="steps">
-                <div class="step">
+        <div class="use-cases">
+            <h2 style="font-size: 36px; text-align: center; margin-bottom: 20px;">Industry Use Cases</h2>
+            <p style="text-align: center; color: #6e6e73; font-size: 18px;">See how different industries leverage AI voice agents</p>
+            
+            <div class="use-cases-grid">
+                <div class="use-case">
+                    <div class="use-case-icon">🏥</div>
+                    <h4 class="use-case-title">Healthcare</h4>
+                    <p class="use-case-desc">Appointment scheduling, prescription reminders, patient follow-ups</p>
+                </div>
+                
+                <div class="use-case">
+                    <div class="use-case-icon">🏦</div>
+                    <h4 class="use-case-title">Financial Services</h4>
+                    <p class="use-case-desc">Account inquiries, payment reminders, fraud alerts</p>
+                </div>
+                
+                <div class="use-case">
+                    <div class="use-case-icon">🛍️</div>
+                    <h4 class="use-case-title">E-commerce</h4>
+                    <p class="use-case-desc">Order status, delivery updates, customer support</p>
+                </div>
+                
+                <div class="use-case">
+                    <div class="use-case-icon">🏠</div>
+                    <h4 class="use-case-title">Real Estate</h4>
+                    <p class="use-case-desc">Property viewings, lead qualification, market updates</p>
+                </div>
+                
+                <div class="use-case">
+                    <div class="use-case-icon">🎓</div>
+                    <h4 class="use-case-title">Education</h4>
+                    <p class="use-case-desc">Enrollment info, class reminders, parent notifications</p>
+                </div>
+                
+                <div class="use-case">
+                    <div class="use-case-icon">🚗</div>
+                    <h4 class="use-case-title">Automotive</h4>
+                    <p class="use-case-desc">Service reminders, test drive scheduling, recall notices</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="features-comparison">
+            <h2 style="font-size: 36px; text-align: center;">Feature Comparison</h2>
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Feature</th>
+                        <th>Inbound Agent</th>
+                        <th>Appointment Assistant</th>
+                        <th>Lead Qualifier</th>
+                        <th>Universal Outreach</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Call Direction</strong></td>
+                        <td>Receives calls</td>
+                        <td>Makes calls</td>
+                        <td>Makes calls</td>
+                        <td>Makes calls</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Primary Purpose</strong></td>
+                        <td>Customer service</td>
+                        <td>Appointment management</td>
+                        <td>Sales qualification</td>
+                        <td>Multi-purpose outreach</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Meeting Booking</strong></td>
+                        <td><span class="check-icon">✓</span> Yes</td>
+                        <td><span class="check-icon">✓</span> Yes</td>
+                        <td><span class="check-icon">✓</span> Yes</td>
+                        <td><span class="check-icon">✓</span> Yes</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Knowledge Base</strong></td>
+                        <td><span class="check-icon">✓</span> Yes</td>
+                        <td><span class="check-icon">✓</span> Yes</td>
+                        <td><span class="check-icon">✓</span> Yes</td>
+                        <td><span class="check-icon">✓</span> Yes</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Call Transfer</strong></td>
+                        <td><span class="check-icon">✓</span> Yes</td>
+                        <td>Limited</td>
+                        <td>To sales team</td>
+                        <td>Context-based</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Custom Scripts</strong></td>
+                        <td><span class="check-icon">✓</span> Yes</td>
+                        <td><span class="check-icon">✓</span> Yes</td>
+                        <td><span class="check-icon">✓</span> Yes</td>
+                        <td><span class="check-icon">✓</span> Yes</td>
+                    </tr>
+                    <tr>
+                        <td><strong>CRM Integration</strong></td>
+                        <td><span class="check-icon">✓</span> Yes</td>
+                        <td><span class="check-icon">✓</span> Yes</td>
+                        <td><span class="check-icon">✓</span> Yes</td>
+                        <td><span class="check-icon">✓</span> Yes</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Analytics</strong></td>
+                        <td><span class="check-icon">✓</span> Yes</td>
+                        <td><span class="check-icon">✓</span> Yes</td>
+                        <td><span class="check-icon">✓</span> Yes</td>
+                        <td><span class="check-icon">✓</span> Yes</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="implementation-steps">
+            <h2 style="font-size: 36px; text-align: center;">Implementation Process</h2>
+            <div class="steps-timeline">
+                <div class="step-item">
                     <div class="step-number">1</div>
                     <div class="step-content">
-                        <h3>Configure Your Agent</h3>
-                        <p>Set up your agent's personality, greeting message, and define what information it should collect from callers. Customize the voice and tone to match your brand.</p>
+                        <h3>Choose Your Agent Type</h3>
+                        <p>Select the appropriate agent based on your business needs - inbound for customer service, outbound for proactive engagement, or specialized agents for specific tasks.</p>
                     </div>
                 </div>
                 
-                <div class="step">
+                <div class="step-item">
                     <div class="step-number">2</div>
                     <div class="step-content">
-                        <h3>Build Your Knowledge Base</h3>
-                        <p>Upload documents, add website URLs, and create custom knowledge bases. The AI will process and understand this information to answer caller questions accurately.</p>
+                        <h3>Configure Agent Settings</h3>
+                        <p>Set up your agent's personality, voice, greeting messages, and define the information it should collect. Customize scripts to match your brand voice.</p>
                     </div>
                 </div>
                 
-                <div class="step">
+                <div class="step-item">
                     <div class="step-number">3</div>
                     <div class="step-content">
-                        <h3>Define Actions & Workflows</h3>
-                        <p>Configure what actions your agent can take - from booking meetings to transferring calls. Set up triggers and conditions for each action based on caller needs.</p>
+                        <h3>Build Knowledge Base</h3>
+                        <p>Upload documents, add website URLs, and create comprehensive knowledge bases. The AI processes this information to answer questions accurately.</p>
                     </div>
                 </div>
                 
-                <div class="step">
+                <div class="step-item">
                     <div class="step-number">4</div>
                     <div class="step-content">
-                        <h3>Deploy & Monitor</h3>
-                        <p>Activate your agent and start receiving calls. Monitor performance, review conversations, and continuously improve based on real interactions.</p>
+                        <h3>Import Contacts (Outbound)</h3>
+                        <p>For outbound agents, upload your contact lists via CSV or add them manually. Set up phone numbers and configure calling schedules.</p>
+                    </div>
+                </div>
+                
+                <div class="step-item">
+                    <div class="step-number">5</div>
+                    <div class="step-content">
+                        <h3>Test & Deploy</h3>
+                        <p>Run test calls to ensure everything works perfectly. Fine-tune scripts based on results, then deploy to production.</p>
+                    </div>
+                </div>
+                
+                <div class="step-item">
+                    <div class="step-number">6</div>
+                    <div class="step-content">
+                        <h3>Monitor & Optimize</h3>
+                        <p>Track performance metrics, review call recordings, and continuously improve your agents based on real-world interactions.</p>
                     </div>
                 </div>
             </div>
         </div>
         
-        <div class="capabilities">
-            <h2 class="section-title">Additional Capabilities</h2>
-            <p style="font-size: 18px; color: #6e6e73; margin-bottom: 40px;">
-                Our inbound agents are equipped with advanced features to handle complex scenarios
-            </p>
-            <div class="capability-tags">
-                <div class="capability-tag">Sentiment Analysis</div>
-                <div class="capability-tag">Multi-language Support</div>
-                <div class="capability-tag">Voice Recognition</div>
-                <div class="capability-tag">Natural Conversations</div>
-                <div class="capability-tag">CRM Integration</div>
-                <div class="capability-tag">Analytics Dashboard</div>
-                <div class="capability-tag">Custom Workflows</div>
-                <div class="capability-tag">API Webhooks</div>
-                <div class="capability-tag">Call Recording</div>
-                <div class="capability-tag">Real-time Transcription</div>
-                <div class="capability-tag">Compliance Tools</div>
-                <div class="capability-tag">24/7 Availability</div>
+        <div class="faq-section">
+            <h2 style="font-size: 36px; text-align: center;">Frequently Asked Questions</h2>
+            <div class="faq-grid">
+                <div class="faq-item">
+                    <h4 class="faq-question">How quickly can I deploy an AI voice agent?</h4>
+                    <p class="faq-answer">Most agents can be configured and deployed within 30 minutes. Complex setups with extensive knowledge bases may take a few hours.</p>
+                </div>
+                
+                <div class="faq-item">
+                    <h4 class="faq-question">What languages are supported?</h4>
+                    <p class="faq-answer">Our agents support over 30 languages with native pronunciation and cultural context understanding.</p>
+                </div>
+                
+                <div class="faq-item">
+                    <h4 class="faq-question">Can agents handle multiple calls simultaneously?</h4>
+                    <p class="faq-answer">Yes, AI agents can handle unlimited concurrent calls, ensuring no customer waits in queue.</p>
+                </div>
+                
+                <div class="faq-item">
+                    <h4 class="faq-question">How secure is the data?</h4>
+                    <p class="faq-answer">All data is encrypted, GDPR compliant, and stored in secure cloud infrastructure with regular security audits.</p>
+                </div>
+                
+                <div class="faq-item">
+                    <h4 class="faq-question">Can I integrate with my existing CRM?</h4>
+                    <p class="faq-answer">Yes, we offer native integrations with major CRMs and custom API support for proprietary systems.</p>
+                </div>
+                
+                <div class="faq-item">
+                    <h4 class="faq-question">What happens if the agent can't answer a question?</h4>
+                    <p class="faq-answer">Agents can seamlessly transfer calls to human representatives with full context of the conversation.</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="cta-section">
+            <h2 class="cta-title">Ready to Transform Your Communications?</h2>
+            <p class="cta-text">Join thousands of businesses using AI voice agents to deliver exceptional customer experiences</p>
+            <div class="cta-buttons">
+                <a href="home.html" class="hero-btn">
+                    <span>🚀</span>
+                    <span>Create Your First Agent</span>
+                </a>
+                <a href="#" class="hero-btn secondary">
+                    <span>📞</span>
+                    <span>Schedule a Demo</span>
+                </a>
             </div>
         </div>
     </div>
