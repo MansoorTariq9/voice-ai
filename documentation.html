@@ -18,10 +18,75 @@
             color: #1d1d1f;
         }
         
+        /* Header */
+        .header {
+            background-color: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 20px 40px;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 30px;
+            align-items: center;
+        }
+        
+        .nav-link {
+            color: #6e6e73;
+            text-decoration: none;
+            font-size: 16px;
+            transition: color 0.3s;
+        }
+        
+        .nav-link:hover {
+            color: #667eea;
+        }
+        
+        .nav-link.active {
+            color: #667eea;
+            font-weight: 500;
+        }
+        
+        .btn-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 10px 24px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        .btn-header:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+        }
+        
         .hero-section {
             background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(10px);
-            padding: 100px 40px;
+            padding: 80px 40px;
             text-align: center;
             box-shadow: 0 10px 40px rgba(0,0,0,0.1);
             position: relative;
@@ -537,10 +602,27 @@
             .faq-grid {
                 grid-template-columns: 1fr;
             }
+            
+            .nav-links {
+                display: none;
+            }
         }
     </style>
 </head>
 <body>
+    <header class="header">
+        <div class="header-content">
+            <div class="logo">AI Voice Agents</div>
+            <nav class="nav-links">
+                <a href="home.html" class="nav-link">Home</a>
+                <a href="features.html" class="nav-link">Features</a>
+                <a href="pricing.html" class="nav-link">Pricing</a>
+                <a href="documentation.html" class="nav-link active">Documentation</a>
+                <a href="home.html#agents" class="btn-header">Get Started</a>
+            </nav>
+        </div>
+    </header>
+    
     <div class="floating-shapes">
         <div class="shape shape1"></div>
         <div class="shape shape2"></div>
