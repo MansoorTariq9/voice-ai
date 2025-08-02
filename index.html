@@ -386,15 +386,28 @@
             position: fixed;
             top: 20px;
             right: 20px;
-            background-color: #4caf50;
+            background: linear-gradient(135deg, #4caf50 0%, #45a049 100%);
             color: white;
             padding: 16px 24px;
             border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            box-shadow: 0 6px 20px rgba(76, 175, 80, 0.3);
             font-size: 14px;
             font-weight: 500;
             display: none;
-            animation: slideIn 0.3s ease-out;
+            transform: translateX(400px);
+            transition: all 0.3s ease-out;
+            z-index: 10000;
+        }
+        
+        .success-message.show {
+            transform: translateX(0);
+        }
+        
+        .success-message::before {
+            content: '✓';
+            margin-right: 8px;
+            font-size: 16px;
+            font-weight: bold;
         }
         
         @keyframes slideIn {
@@ -985,8 +998,8 @@
             </div>
             
             <div class="action-buttons">
-                <button class="btn btn-primary" onclick="saveAgent()">Save and Test agent</button>
-                <button class="btn btn-secondary">Cancel</button>
+                <button class="btn btn-primary" onclick="saveAgent()">Save and Test Agent</button>
+                <button class="btn btn-secondary" onclick="window.location.href='home.html'">Cancel</button>
             </div>
             </div>
             
@@ -1109,14 +1122,109 @@
         let addedUrls = [];
         
         function saveAgent() {
-            // Show success message
-            const successMessage = document.getElementById('successMessage');
-            successMessage.style.display = 'block';
+            // Show loading state
+            const saveBtn = event.target;
+            const originalText = saveBtn.textContent;
+            saveBtn.textContent = 'Saving...';
+            saveBtn.disabled = true;
             
-            // Hide message after 3 seconds
+            // Simulate saving process
             setTimeout(() => {
-                successMessage.style.display = 'none';
-            }, 3000);
+                // Show success message
+                const successMessage = document.getElementById('successMessage');
+                successMessage.style.display = 'block';
+                successMessage.classList.add('show');
+                
+                // Update button text
+                saveBtn.textContent = 'Saved! Testing agent...';
+                
+                // Simulate test call
+                setTimeout(() => {
+                    // Show test modal
+                    showTestModal();
+                    
+                    // Reset button
+                    saveBtn.textContent = originalText;
+                    saveBtn.disabled = false;
+                    
+                    // Hide success message after 5 seconds
+                    setTimeout(() => {
+                        successMessage.classList.remove('show');
+                        setTimeout(() => {
+                            successMessage.style.display = 'none';
+                        }, 300);
+                    }, 5000);
+                }, 2000);
+            }, 1500);
+        }
+        
+        function showTestModal() {
+            // Get agent phone number from sessionStorage
+            const agentDataStr = sessionStorage.getItem('agentData');
+            let phoneNumber = '+1 (555) 123-4567'; // Default fallback
+            
+            if (agentDataStr) {
+                const agentData = JSON.parse(agentDataStr);
+                if (agentData.phone) {
+                    phoneNumber = agentData.phone;
+                }
+            }
+            
+            // Create test modal if it doesn't exist
+            let testModal = document.getElementById('testModal');
+            if (!testModal) {
+                testModal = document.createElement('div');
+                testModal.id = 'testModal';
+                testModal.className = 'modal';
+                document.body.appendChild(testModal);
+            }
+            
+            testModal.innerHTML = `
+                <div class="modal-content" style="max-width: 600px;">
+                    <div class="modal-header">
+                        <h2>Test Your Agent</h2>
+                        <button class="modal-close" onclick="closeTestModal()">&times;</button>
+                    </div>
+                    <div class="modal-body" style="text-align: center; padding: 40px;">
+                        <div style="font-size: 64px; margin-bottom: 20px;">📞</div>
+                        <h3 style="font-size: 24px; margin-bottom: 16px;">Your agent is ready for testing!</h3>
+                        <p style="color: #6e6e73; font-size: 18px; margin-bottom: 30px;">Call the number below to test your inbound agent:</p>
+                        <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 20px; border-radius: 12px; font-size: 28px; font-weight: 600; margin-bottom: 20px;">
+                            ${phoneNumber}
+                        </div>
+                        <p style="color: #6e6e73; font-size: 14px; margin-bottom: 30px;">This test number is active for the next 24 hours</p>
+                        <div style="display: flex; gap: 12px; justify-content: center;">
+                            <button class="btn btn-primary" onclick="copyTestNumber('${phoneNumber}')">Copy Number</button>
+                            <button class="btn btn-secondary" onclick="closeTestModal()">Continue Editing</button>
+                            <button class="btn btn-secondary" onclick="window.location.href='home.html'">Back to Home</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            testModal.style.display = 'block';
+        }
+        
+        function closeTestModal() {
+            const testModal = document.getElementById('testModal');
+            if (testModal) {
+                testModal.style.display = 'none';
+            }
+        }
+        
+        function copyTestNumber(phoneNumber) {
+            navigator.clipboard.writeText(phoneNumber).then(() => {
+                // Show copied notification
+                const btn = event.target;
+                const originalText = btn.textContent;
+                btn.textContent = 'Copied!';
+                btn.style.background = '#4caf50';
+                
+                setTimeout(() => {
+                    btn.textContent = originalText;
+                    btn.style.background = '';
+                }, 2000);
+            });
         }
         
         function toggleCollapsible(header) {
