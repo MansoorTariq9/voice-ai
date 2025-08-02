@@ -1,0 +1,799 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Universal Outreach Configuration - AI Voice Agents</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            color: #1d1d1f;
+        }
+        
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(229, 229, 231, 0.5);
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.05);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .header h1 {
+            font-size: 24px;
+            font-weight: 600;
+        }
+        
+        .header .subtitle {
+            color: #6e6e73;
+            font-size: 14px;
+            margin-left: 10px;
+        }
+        
+        .documentation-link {
+            color: #0066cc;
+            text-decoration: none;
+            font-size: 14px;
+            padding: 8px 16px;
+            border: 2px solid #0066cc;
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+        
+        .documentation-link:hover {
+            background-color: #0066cc;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 102, 204, 0.3);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px;
+        }
+        
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            background: linear-gradient(145deg, #ffffff, #f0f0f3);
+            padding: 8px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        }
+        
+        .tab {
+            padding: 10px 20px;
+            border-radius: 6px;
+            background-color: transparent;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            color: #6e6e73;
+            transition: all 0.2s;
+        }
+        
+        .tab.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+        
+        .agent-card {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+            padding: 32px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .agent-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .agent-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .agent-avatar {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 24px;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+            position: relative;
+        }
+        
+        .agent-avatar::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 16px;
+            height: 16px;
+            background-color: #4caf50;
+            border-radius: 50%;
+            border: 3px solid white;
+        }
+        
+        .agent-info h2 {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+        
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            background: linear-gradient(135deg, #4caf50 0%, #45a049 100%);
+            color: white;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+            box-shadow: 0 2px 8px rgba(76, 175, 80, 0.3);
+        }
+        
+        .status-badge::before {
+            content: '●';
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+        
+        .form-section {
+            margin-bottom: 30px;
+            animation: fadeIn 0.8s ease-out;
+            animation-fill-mode: both;
+        }
+        
+        .form-section:nth-child(1) { animation-delay: 0.1s; }
+        .form-section:nth-child(2) { animation-delay: 0.2s; }
+        .form-section:nth-child(3) { animation-delay: 0.3s; }
+        .form-section:nth-child(4) { animation-delay: 0.4s; }
+        .form-section:nth-child(5) { animation-delay: 0.5s; }
+        .form-section:nth-child(6) { animation-delay: 0.6s; }
+        .form-section:nth-child(7) { animation-delay: 0.7s; }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        .form-section h3 {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: #1d1d1f;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .form-section h3::before {
+            content: '';
+            width: 4px;
+            height: 24px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 2px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 8px;
+            color: #1d1d1f;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #e5e5e7;
+            border-radius: 10px;
+            font-size: 14px;
+            transition: all 0.3s;
+            background-color: #fafafa;
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: #667eea;
+            background-color: white;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+            transform: translateY(-1px);
+        }
+        
+        textarea.form-control {
+            resize: vertical;
+            min-height: 100px;
+        }
+        
+        .info-box {
+            background: linear-gradient(135deg, #f5f7fa 0%, #e9ecef 100%);
+            border-left: 4px solid transparent;
+            border-image: linear-gradient(135deg, #667eea 0%, #764ba2 100%) 1;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        
+        .info-box p {
+            font-size: 14px;
+            line-height: 1.6;
+            color: #6e6e73;
+        }
+        
+        .collapsible-section {
+            border: 2px solid rgba(102, 126, 234, 0.2);
+            border-radius: 12px;
+            overflow: hidden;
+            margin-bottom: 20px;
+            background: rgba(255, 255, 255, 0.8);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            transition: all 0.3s;
+        }
+        
+        .collapsible-section:hover {
+            border-color: rgba(102, 126, 234, 0.4);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+        }
+        
+        .collapsible-header {
+            padding: 20px;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            color: #495057;
+            transition: all 0.3s;
+        }
+        
+        .collapsible-header:hover {
+            background: linear-gradient(135deg, #e9ecef 0%, #dee2e6 100%);
+        }
+        
+        .collapsible-content {
+            padding: 16px;
+            border-top: 1px solid #d2d2d7;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 30px;
+        }
+        
+        .btn {
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: none;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+        
+        .btn-primary:hover::before {
+            left: 100%;
+        }
+        
+        .btn-secondary {
+            background-color: #e5e5e7;
+            color: #1d1d1f;
+        }
+        
+        .btn-secondary:hover {
+            background-color: #d2d2d7;
+        }
+        
+        .floating-shapes {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: -1;
+            top: 0;
+            left: 0;
+        }
+        
+        .shape {
+            position: absolute;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+            border-radius: 50%;
+            animation: float 20s infinite ease-in-out;
+        }
+        
+        .shape1 {
+            width: 300px;
+            height: 300px;
+            top: -150px;
+            left: -150px;
+            animation-delay: 0s;
+        }
+        
+        .shape2 {
+            width: 200px;
+            height: 200px;
+            top: 50%;
+            right: -100px;
+            animation-delay: 5s;
+        }
+        
+        .shape3 {
+            width: 150px;
+            height: 150px;
+            bottom: -75px;
+            left: 30%;
+            animation-delay: 10s;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            33% { transform: translateY(-30px) rotate(120deg); }
+            66% { transform: translateY(30px) rotate(240deg); }
+        }
+        
+        .contact-section {
+            background: linear-gradient(145deg, #ffffff, #f0f0f3);
+            border-radius: 12px;
+            padding: 24px;
+            margin-top: 30px;
+        }
+        
+        .contact-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .contact-header h3 {
+            margin: 0;
+        }
+        
+        .btn-add-contacts {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .btn-add-contacts:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+        
+        .contact-list {
+            background: white;
+            border-radius: 8px;
+            padding: 16px;
+            margin-top: 16px;
+            min-height: 200px;
+            border: 2px dashed #e5e5e7;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #6e6e73;
+        }
+        
+        .phone-selection {
+            margin-top: 20px;
+        }
+        
+        .phone-selection label {
+            display: block;
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 8px;
+            color: #1d1d1f;
+        }
+        
+        .phone-selection select {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #e5e5e7;
+            border-radius: 10px;
+            font-size: 14px;
+            background-color: #fafafa;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .phone-selection select:focus {
+            outline: none;
+            border-color: #667eea;
+            background-color: white;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+        
+        .scenario-type {
+            background: linear-gradient(145deg, #ffffff, #f0f0f3);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .scenario-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-top: 16px;
+        }
+        
+        .scenario-option {
+            padding: 16px;
+            border: 2px solid #e5e5e7;
+            border-radius: 10px;
+            background-color: white;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+        }
+        
+        .scenario-option:hover {
+            border-color: #667eea;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+        
+        .scenario-option.active {
+            border-color: #667eea;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+        }
+        
+        .scenario-icon {
+            font-size: 32px;
+            margin-bottom: 8px;
+        }
+        
+        .scenario-name {
+            font-weight: 600;
+            color: #1d1d1f;
+        }
+    </style>
+</head>
+<body>
+    <div class="floating-shapes">
+        <div class="shape shape1"></div>
+        <div class="shape shape2"></div>
+        <div class="shape shape3"></div>
+    </div>
+    <header class="header">
+        <div>
+            <h1>Universal Outreach <span class="subtitle">Generic Scenario</span></h1>
+        </div>
+        <a href="#" class="documentation-link">Outreach Best Practices</a>
+    </header>
+    
+    <div class="container">
+        <nav class="tabs">
+            <button class="tab" onclick="window.location.href='outbound-agents.html'">← Back to Agents</button>
+            <button class="tab active">Project Settings</button>
+            <button class="tab">Knowledge Packs</button>
+        </nav>
+        
+        <div class="agent-card">
+            <div class="agent-header">
+                <div class="agent-avatar" id="agentAvatar">A</div>
+                <div class="agent-info">
+                    <h2 id="agentNameDisplay">Your Outreach Agent</h2>
+                    <span class="status-badge">Production - Live</span>
+                </div>
+            </div>
+            
+            <div class="tabs">
+                <button class="tab active">🌐 Outreach Configuration</button>
+                <button class="tab">📚 Knowledge Base</button>
+            </div>
+            
+            <!-- Scenario Selection -->
+            <div class="form-section">
+                <h3>🎯 Outreach Scenario</h3>
+                <div class="scenario-type">
+                    <label>Select Your Outreach Type</label>
+                    <div class="scenario-options">
+                        <div class="scenario-option active">
+                            <div class="scenario-icon">📊</div>
+                            <div class="scenario-name">Feedback Collection</div>
+                        </div>
+                        <div class="scenario-option">
+                            <div class="scenario-icon">🎉</div>
+                            <div class="scenario-name">Event Follow-up</div>
+                        </div>
+                        <div class="scenario-option">
+                            <div class="scenario-icon">💼</div>
+                            <div class="scenario-name">Customer Check-in</div>
+                        </div>
+                        <div class="scenario-option">
+                            <div class="scenario-icon">📢</div>
+                            <div class="scenario-name">Announcement</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Caller & Agent Setup Section -->
+            <div class="form-section">
+                <h3>🤖 Caller & Agent Setup</h3>
+                <div class="collapsible-section">
+                    <div class="collapsible-header">
+                        <span>Identity</span>
+                        <span>▼</span>
+                    </div>
+                    <div class="collapsible-content">
+                        <div class="form-group">
+                            <label>Agent Introduction</label>
+                            <textarea class="form-control" rows="3" placeholder="Hello {{client_firstname}}, this is {{agent_name}} calling from {{company_name}}. I hope I'm not catching you at a bad time?"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Company Name</label>
+                            <input type="text" class="form-control" placeholder="Enter your company name">
+                        </div>
+                        <div class="form-group">
+                            <label>Representative Name</label>
+                            <input type="text" class="form-control" placeholder="Enter representative name">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Call Purpose & Pitch Section -->
+            <div class="form-section">
+                <h3>📋 Call Purpose & Pitch</h3>
+                <div class="collapsible-section">
+                    <div class="collapsible-header">
+                        <span>Objectives</span>
+                        <span>▼</span>
+                    </div>
+                    <div class="collapsible-content">
+                        <div class="form-group">
+                            <label>Main Call Objective</label>
+                            <textarea class="form-control" rows="4" placeholder="I wanted to follow up on your recent experience with our service. We're always looking to improve, and your feedback would be incredibly valuable to us."></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Conversation Handling & Logic Section -->
+            <div class="form-section">
+                <h3>💬 Conversation Handling & Logic</h3>
+                <div class="collapsible-section">
+                    <div class="collapsible-header">
+                        <span>Script Guardrails</span>
+                        <span>▼</span>
+                    </div>
+                    <div class="collapsible-content">
+                        <div class="form-group">
+                            <label>Response Guidelines</label>
+                            <textarea class="form-control" rows="4" placeholder="Be empathetic and listen actively. If the customer expresses dissatisfaction, acknowledge their concerns and offer to escalate to a human representative."></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Objection Handling</label>
+                            <textarea class="form-control" rows="3" placeholder="I understand you might be busy. This will only take 2-3 minutes of your time, and your feedback will directly help us serve you better."></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Key Information Section -->
+            <div class="form-section">
+                <h3>🔑 Key Information</h3>
+                <div class="collapsible-section">
+                    <div class="collapsible-header">
+                        <span>Information to Collect</span>
+                        <span>▼</span>
+                    </div>
+                    <div class="collapsible-content">
+                        <div class="form-group">
+                            <label>Data Points to Gather</label>
+                            <textarea class="form-control" rows="6" placeholder="1. Overall satisfaction rating (1-10)
+2. Specific areas of improvement
+3. Would they recommend us to others?
+4. Any additional comments or suggestions
+5. Best time to contact for future updates"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Meeting & Scheduling Details Section -->
+            <div class="form-section">
+                <h3>📅 Meeting & Scheduling Details</h3>
+                <div class="collapsible-section">
+                    <div class="collapsible-header">
+                        <span>Default Meeting Duration (minutes)</span>
+                        <span>▼</span>
+                    </div>
+                    <div class="collapsible-content">
+                        <div class="form-group">
+                            <label>Meeting Duration</label>
+                            <input type="number" class="form-control" placeholder="30" value="30">
+                        </div>
+                        <div class="form-group">
+                            <label>Calendar</label>
+                            <select class="form-control">
+                                <option>Mansoor Testing Calendar</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Location of Meeting</label>
+                            <input type="text" class="form-control" placeholder="Virtual Meeting">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Follow Up Communication Section -->
+            <div class="form-section">
+                <h3>📧 Follow Up Communication</h3>
+                <div class="collapsible-section">
+                    <div class="collapsible-header">
+                        <span>Voicemail Message</span>
+                        <span>▼</span>
+                    </div>
+                    <div class="collapsible-content">
+                        <div class="form-group">
+                            <label>Voicemail Script</label>
+                            <textarea class="form-control" rows="4" placeholder="Hello {{client_firstname}}, this is {{agent_name}} from {{company_name}}. I was calling to get your feedback on your recent experience with us. I'll try reaching out to you again soon. Thank you and have a great day!"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Contacts Section -->
+            <div class="contact-section">
+                <div class="contact-header">
+                    <h3>👥 Contacts to Call</h3>
+                    <button class="btn-add-contacts">
+                        <i class="fas fa-plus"></i>
+                        Add Contacts
+                    </button>
+                </div>
+                <div class="contact-list">
+                    <p>No contacts added yet. Click "Add Contacts" to upload your contact list.</p>
+                </div>
+                
+                <div class="phone-selection">
+                    <label>Select Outbound Phone Number</label>
+                    <select id="phoneNumberSelect">
+                        <option value="">Select a phone number...</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="action-buttons">
+                <button class="btn btn-primary" onclick="saveAgent()">Save Configuration</button>
+                <button class="btn btn-secondary">Test Outreach Call</button>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Initialize with agent data from sessionStorage
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get agent data from sessionStorage
+            const agentDataStr = sessionStorage.getItem('outboundAgentData');
+            
+            if (agentDataStr) {
+                const agentData = JSON.parse(agentDataStr);
+                
+                // Update agent name and avatar
+                document.getElementById('agentNameDisplay').textContent = agentData.name;
+                document.getElementById('agentAvatar').textContent = agentData.avatar;
+                
+                // Update phone number in select
+                const phoneSelect = document.getElementById('phoneNumberSelect');
+                const option = document.createElement('option');
+                option.value = agentData.phone;
+                option.textContent = agentData.phone;
+                option.selected = true;
+                phoneSelect.appendChild(option);
+            } else {
+                // If no agent data, redirect back to create page
+                window.location.href = 'create-outbound-agent.html?type=universal';
+            }
+            
+            // Add click handlers for scenario options
+            const scenarioOptions = document.querySelectorAll('.scenario-option');
+            scenarioOptions.forEach(option => {
+                option.addEventListener('click', function() {
+                    scenarioOptions.forEach(opt => opt.classList.remove('active'));
+                    this.classList.add('active');
+                });
+            });
+        });
+        
+        function saveAgent() {
+            // Show success message
+            alert('Universal outreach agent configuration saved successfully!');
+        }
+    </script>
+</body>
+</html>

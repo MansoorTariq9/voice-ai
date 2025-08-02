@@ -1,0 +1,1436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agent Configuration - Settings</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            color: #1d1d1f;
+        }
+        
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(229, 229, 231, 0.5);
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.05);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .header h1 {
+            font-size: 24px;
+            font-weight: 600;
+        }
+        
+        .header .subtitle {
+            color: #6e6e73;
+            font-size: 14px;
+            margin-left: 10px;
+        }
+        
+        .documentation-link {
+            color: #0066cc;
+            text-decoration: none;
+            font-size: 14px;
+            padding: 8px 16px;
+            border: 2px solid #0066cc;
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+        
+        .documentation-link:hover {
+            background-color: #0066cc;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 102, 204, 0.3);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px;
+        }
+        
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            background: linear-gradient(145deg, #ffffff, #f0f0f3);
+            padding: 8px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        }
+        
+        .tab {
+            padding: 10px 20px;
+            border-radius: 6px;
+            background-color: transparent;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            color: #6e6e73;
+            transition: all 0.2s;
+        }
+        
+        .tab.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+        
+        .agent-card {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+            padding: 32px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .agent-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .agent-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .agent-avatar {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 24px;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+            position: relative;
+        }
+        
+        .agent-avatar::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 16px;
+            height: 16px;
+            background-color: #4caf50;
+            border-radius: 50%;
+            border: 3px solid white;
+        }
+        
+        .agent-info h2 {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+        
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            background: linear-gradient(135deg, #4caf50 0%, #45a049 100%);
+            color: white;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+            box-shadow: 0 2px 8px rgba(76, 175, 80, 0.3);
+        }
+        
+        .status-badge::before {
+            content: '●';
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+        
+        .form-section {
+            margin-bottom: 30px;
+        }
+        
+        .form-section h3 {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: #1d1d1f;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .form-section h3::before {
+            content: '';
+            width: 4px;
+            height: 24px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 2px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 8px;
+            color: #1d1d1f;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #e5e5e7;
+            border-radius: 10px;
+            font-size: 14px;
+            transition: all 0.3s;
+            background-color: #fafafa;
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: #667eea;
+            background-color: white;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+            transform: translateY(-1px);
+        }
+        
+        textarea.form-control {
+            resize: vertical;
+            min-height: 100px;
+        }
+        
+        .info-box {
+            background: linear-gradient(135deg, #f5f7fa 0%, #e9ecef 100%);
+            border-left: 4px solid transparent;
+            border-image: linear-gradient(135deg, #667eea 0%, #764ba2 100%) 1;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        
+        .info-box p {
+            font-size: 14px;
+            line-height: 1.6;
+            color: #6e6e73;
+        }
+        
+        .collapsible-section {
+            border: 2px solid rgba(102, 126, 234, 0.2);
+            border-radius: 12px;
+            overflow: hidden;
+            margin-bottom: 20px;
+            background: rgba(255, 255, 255, 0.8);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            transition: all 0.3s;
+        }
+        
+        .collapsible-section:hover {
+            border-color: rgba(102, 126, 234, 0.4);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+        }
+        
+        .collapsible-header {
+            padding: 20px;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            color: #495057;
+            transition: all 0.3s;
+        }
+        
+        .collapsible-header:hover {
+            background: linear-gradient(135deg, #e9ecef 0%, #dee2e6 100%);
+        }
+        
+        .collapsible-content {
+            padding: 16px;
+            border-top: 1px solid #d2d2d7;
+        }
+        
+        .key-info-list {
+            list-style: none;
+            padding-left: 20px;
+        }
+        
+        .key-info-list li {
+            margin-bottom: 8px;
+            font-size: 14px;
+            color: #1d1d1f;
+        }
+        
+        .key-info-list li::before {
+            content: "• ";
+            color: #0066cc;
+            font-weight: bold;
+            margin-left: -15px;
+            margin-right: 8px;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 30px;
+        }
+        
+        .btn {
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: none;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+        
+        .btn-primary:hover::before {
+            left: 100%;
+        }
+        
+        .btn-secondary {
+            background-color: #e5e5e7;
+            color: #1d1d1f;
+        }
+        
+        .btn-secondary:hover {
+            background-color: #d2d2d7;
+        }
+        
+        .phone-number-input {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        
+        .phone-number-input input {
+            flex: 1;
+        }
+        
+        .manage-link {
+            color: #0066cc;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+        }
+        
+        .manage-link:hover {
+            text-decoration: underline;
+        }
+        
+        .success-message {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: #4caf50;
+            color: white;
+            padding: 16px 24px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            font-size: 14px;
+            font-weight: 500;
+            display: none;
+            animation: slideIn 0.3s ease-out;
+        }
+        
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+        
+        .info-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+        
+        .info-item input {
+            flex: 1;
+            padding: 8px 12px;
+            border: 1px solid #d2d2d7;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+        
+        .info-item .remove-btn {
+            padding: 6px 12px;
+            background-color: #ff3b30;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background-color 0.2s;
+        }
+        
+        .info-item .remove-btn:hover {
+            background-color: #dc2626;
+        }
+        
+        .arrow {
+            transition: transform 0.3s;
+        }
+        
+        .collapsible-header.active .arrow {
+            transform: rotate(180deg);
+        }
+        
+        .collapsible-content {
+            display: none;
+        }
+        
+        .collapsible-content.active {
+            display: block;
+        }
+        
+        .action-options {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+        
+        .action-checkbox {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 20px;
+            background: linear-gradient(145deg, #ffffff, #f0f0f3);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 2px solid transparent;
+            position: relative;
+        }
+        
+        .action-checkbox:hover {
+            background: linear-gradient(145deg, #f0f0f3, #ffffff);
+            transform: translateX(5px);
+            border-color: #667eea;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.1);
+        }
+        
+        .action-checkbox input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+        }
+        
+        .checkbox-label {
+            flex: 1;
+            font-weight: 500;
+        }
+        
+        .configure-btn {
+            padding: 8px 18px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+        
+        .configure-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            animation: fadeIn 0.3s;
+        }
+        
+        .modal-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            padding: 32px;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+            width: 90%;
+            max-width: 500px;
+            animation: slideIn 0.3s;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes slideIn {
+            from { 
+                opacity: 0;
+                transform: translate(-50%, -60%);
+            }
+            to { 
+                opacity: 1;
+                transform: translate(-50%, -50%);
+            }
+        }
+        
+        .modal-header {
+            margin-bottom: 24px;
+        }
+        
+        .modal-header h3 {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        
+        .modal-header p {
+            color: #6e6e73;
+            font-size: 14px;
+        }
+        
+        .modal-body {
+            margin-bottom: 24px;
+        }
+        
+        .modal-footer {
+            display: flex;
+            gap: 12px;
+            justify-content: flex-end;
+        }
+        
+        .btn-cancel {
+            padding: 10px 20px;
+            background-color: #e5e5e7;
+            color: #1d1d1f;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        
+        .btn-cancel:hover {
+            background-color: #d2d2d7;
+        }
+        
+        .btn-save {
+            padding: 10px 20px;
+            background-color: #0066cc;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        
+        .btn-save:hover {
+            background-color: #0051a2;
+        }
+        .floating-shapes {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: -1;
+            top: 0;
+            left: 0;
+        }
+        
+        .shape {
+            position: absolute;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+            border-radius: 50%;
+            animation: float 20s infinite ease-in-out;
+        }
+        
+        .shape1 {
+            width: 300px;
+            height: 300px;
+            top: -150px;
+            left: -150px;
+            animation-delay: 0s;
+        }
+        
+        .shape2 {
+            width: 200px;
+            height: 200px;
+            top: 50%;
+            right: -100px;
+            animation-delay: 5s;
+        }
+        
+        .shape3 {
+            width: 150px;
+            height: 150px;
+            bottom: -75px;
+            left: 30%;
+            animation-delay: 10s;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            33% { transform: translateY(-30px) rotate(120deg); }
+            66% { transform: translateY(30px) rotate(240deg); }
+        }
+        
+        .agent-card {
+            animation: slideUp 0.6s ease-out;
+        }
+        
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .form-section {
+            animation: fadeIn 0.8s ease-out;
+            animation-fill-mode: both;
+        }
+        
+        .form-section:nth-child(1) { animation-delay: 0.1s; }
+        .form-section:nth-child(2) { animation-delay: 0.2s; }
+        .form-section:nth-child(3) { animation-delay: 0.3s; }
+        .form-section:nth-child(4) { animation-delay: 0.4s; }
+        .form-section:nth-child(5) { animation-delay: 0.5s; }
+        .form-section:nth-child(6) { animation-delay: 0.6s; }
+        .form-section:nth-child(7) { animation-delay: 0.7s; }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        .tab-content {
+            animation: fadeIn 0.5s ease-out;
+        }
+        
+        .knowledge-section {
+            padding: 20px 0;
+        }
+        
+        .knowledge-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+        
+        .knowledge-header h3 {
+            font-size: 24px;
+            margin: 0;
+            color: #1d1d1f;
+        }
+        
+        .knowledge-list {
+            display: grid;
+            gap: 20px;
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #6e6e73;
+            background: linear-gradient(145deg, #ffffff, #f0f0f3);
+            border-radius: 12px;
+            border: 2px dashed #d2d2d7;
+        }
+        
+        .knowledge-item {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 12px;
+            padding: 20px;
+            border: 2px solid rgba(102, 126, 234, 0.2);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s;
+        }
+        
+        .knowledge-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+            border-color: rgba(102, 126, 234, 0.4);
+        }
+        
+        .knowledge-info h4 {
+            font-size: 18px;
+            margin-bottom: 8px;
+            color: #1d1d1f;
+        }
+        
+        .knowledge-meta {
+            display: flex;
+            gap: 20px;
+            font-size: 14px;
+            color: #6e6e73;
+        }
+        
+        .knowledge-status {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .status-processing {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #ff9500;
+            font-weight: 500;
+        }
+        
+        .status-completed {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #4caf50;
+            font-weight: 500;
+        }
+        
+        .spinner {
+            width: 16px;
+            height: 16px;
+            border: 2px solid #f3f3f3;
+            border-top: 2px solid #ff9500;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .refresh-btn {
+            padding: 6px 12px;
+            background-color: #e5e5e7;
+            color: #1d1d1f;
+            border: none;
+            border-radius: 6px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .refresh-btn:hover {
+            background-color: #d2d2d7;
+            transform: rotate(180deg);
+        }
+        
+        .upload-section {
+            margin-bottom: 20px;
+        }
+        
+        .upload-area {
+            border: 2px dashed #d2d2d7;
+            border-radius: 10px;
+            padding: 30px;
+            text-align: center;
+            background-color: #fafafa;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+        
+        .upload-area:hover {
+            border-color: #667eea;
+            background-color: #f5f7ff;
+        }
+        
+        .upload-area.dragover {
+            border-color: #667eea;
+            background-color: #e8ecff;
+        }
+        
+        .url-input-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        
+        .url-input-group input {
+            flex: 1;
+        }
+        
+        .url-list {
+            margin-top: 15px;
+        }
+        
+        .url-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 12px;
+            background-color: #f5f5f7;
+            border-radius: 6px;
+            margin-bottom: 8px;
+        }
+        
+        .remove-url {
+            color: #ff3b30;
+            cursor: pointer;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="floating-shapes">
+        <div class="shape shape1"></div>
+        <div class="shape shape2"></div>
+        <div class="shape shape3"></div>
+    </div>
+    <header class="header">
+        <div>
+            <h1>Agent Configuration <span class="subtitle">Settings</span></h1>
+        </div>
+        <a href="documentation.html" class="documentation-link">Inbound Agent Documentation</a>
+    </header>
+    
+    <div class="container">
+        <nav class="tabs">
+            <button class="tab" onclick="window.location.href='home.html'">← Back to Home</button>
+            <button class="tab active">🤖 Agent Configuration</button>
+        </nav>
+        
+        <div class="agent-card">
+            <div class="agent-header">
+                <div class="agent-avatar" id="agentAvatar">A</div>
+                <div class="agent-info">
+                    <h2 id="agentNameDisplay">Your Agent Name</h2>
+                    <span class="status-badge">Production - Live</span>
+                </div>
+            </div>
+            
+            <div class="tabs">
+                <button class="tab active" onclick="switchTab('training')">🎯 Agent training</button>
+                <button class="tab" onclick="switchTab('knowledge')">📚 Knowledge Base</button>
+            </div>
+            
+            <!-- Agent Training Tab Content -->
+            <div id="trainingContent" class="tab-content active">
+            <div class="form-section">
+                <h3>👋 How will the agent greet callers?</h3>
+                <div class="form-group">
+                    <textarea class="form-control" placeholder="Enter greeting message..."></textarea>
+                </div>
+            </div>
+            
+            <div class="form-section">
+                <h3>👤 Agent Details</h3>
+                <div class="form-group">
+                    <label>Representative name</label>
+                    <input type="text" class="form-control" value="" placeholder="Enter representative name">
+                </div>
+                
+                <div class="form-group">
+                    <label>Company name</label>
+                    <input type="text" class="form-control" value="" placeholder="Enter company name">
+                </div>
+                
+                <div class="form-group">
+                    <label>Representative title</label>
+                    <input type="text" class="form-control" value="" placeholder="Enter title">
+                </div>
+            </div>
+            
+            <div class="form-section">
+                <h3>📋 Information to gather</h3>
+                <div class="collapsible-section">
+                    <div class="collapsible-header" onclick="toggleCollapsible(this)">
+                        <span>Configure what information your agent should collect</span>
+                        <span class="arrow">▼</span>
+                    </div>
+                    <div class="collapsible-content" id="infoGatherContent">
+                        <div class="info-items-container">
+                            <div id="infoItemsList">
+                                <!-- Dynamic items will be added here -->
+                            </div>
+                            <button class="btn btn-secondary" onclick="addInfoItem()" style="margin-top: 10px;">+ Add Information Item</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="form-section">
+                <h3>🔑 Key Information</h3>
+                <div class="form-group">
+                    <label>Key Information about Your Company</label>
+                    <textarea class="form-control" rows="8" placeholder="Enter key information about your company..."></textarea>
+                </div>
+            </div>
+            
+            <div class="form-section">
+                <h3>🎯 Primary goal</h3>
+                <div class="form-group">
+                    <input type="text" class="form-control" value="" placeholder="Enter primary goal">
+                </div>
+            </div>
+            
+            <div class="form-section">
+                <h3>⚡ What actions can the agent take?</h3>
+                <div class="action-options">
+                    <label class="action-checkbox">
+                        <input type="checkbox" id="meetingBooking" onchange="toggleAction('meeting')">
+                        <span class="checkbox-label">📅 Meeting Booking</span>
+                        <button class="configure-btn" id="configureMeeting" onclick="openMeetingModal()" style="display: none;">Configure</button>
+                    </label>
+                    <label class="action-checkbox">
+                        <input type="checkbox" id="callTransfer" onchange="toggleAction('transfer')">
+                        <span class="checkbox-label">🔄 Call Transfer</span>
+                        <button class="configure-btn" id="configureTransfer" onclick="openTransferModal()" style="display: none;">Configure</button>
+                    </label>
+                </div>
+            </div>
+            
+            <div class="form-section">
+                <h3>📞 What number will calls be received at?</h3>
+                <div class="phone-number-input">
+                    <input type="text" class="form-control" id="phoneNumberDisplay" value="" placeholder="Enter phone number">
+                    <a href="#" class="manage-link">Manage numbers</a>
+                </div>
+            </div>
+            
+            <div class="action-buttons">
+                <button class="btn btn-primary" onclick="saveAgent()">Save and Test agent</button>
+                <button class="btn btn-secondary">Cancel</button>
+            </div>
+            </div>
+            
+            <!-- Knowledge Base Tab Content -->
+            <div id="knowledgeContent" class="tab-content" style="display: none;">
+                <div class="knowledge-section">
+                    <div class="knowledge-header">
+                        <h3>📚 Knowledge Base Management</h3>
+                        <button class="btn btn-primary" onclick="openKnowledgeModal()">+ Create Knowledge Base</button>
+                    </div>
+                    
+                    <div class="knowledge-list" id="knowledgeList">
+                        <!-- Knowledge bases will be listed here -->
+                        <div class="empty-state">
+                            <p>No knowledge bases created yet. Click "Create Knowledge Base" to get started.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="success-message" id="successMessage">
+        Agent configuration saved successfully!
+    </div>
+    
+    <!-- Meeting Booking Modal -->
+    <div class="modal" id="meetingModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Configure Meeting Booking</h3>
+                <p>Set up how your agent will schedule meetings</p>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>Select Calendar</label>
+                    <select class="form-control" id="calendarSelect">
+                        <option value="mansoor">Mansoor Calendar</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>When should the meeting take place?</label>
+                    <textarea class="form-control" id="meetingTiming" placeholder="e.g., Ask the caller for their preferred time, or schedule within business hours (9 AM - 5 PM EST)"></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-cancel" onclick="closeModal('meetingModal')">Cancel</button>
+                <button class="btn-save" onclick="saveMeetingConfig()">Save Configuration</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Knowledge Base Modal -->
+    <div class="modal" id="knowledgeModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Create Knowledge Base</h3>
+                <p>Upload documents and add URLs to create a knowledge base for your agent</p>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>Knowledge Base Name</label>
+                    <input type="text" class="form-control" id="knowledgeName" placeholder="e.g., Product Documentation">
+                </div>
+                
+                <div class="upload-section">
+                    <label>Upload Documents</label>
+                    <div class="upload-area" id="uploadArea" onclick="document.getElementById('fileInput').click()">
+                        <input type="file" id="fileInput" multiple style="display: none;" accept=".pdf,.doc,.docx,.txt">
+                        <p>📁 Click to upload or drag and drop</p>
+                        <p style="font-size: 12px; color: #6e6e73;">Supported formats: PDF, DOC, DOCX, TXT</p>
+                    </div>
+                    <div id="fileList" style="margin-top: 10px;"></div>
+                </div>
+                
+                <div class="form-group">
+                    <label>Add URLs</label>
+                    <div class="url-input-group">
+                        <input type="url" class="form-control" id="urlInput" placeholder="https://example.com">
+                        <button class="btn btn-secondary" onclick="addUrl()">Add URL</button>
+                    </div>
+                    <div id="urlList" class="url-list"></div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-cancel" onclick="closeModal('knowledgeModal')">Cancel</button>
+                <button class="btn-save" onclick="saveKnowledgeBase()">Create Knowledge Base</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Call Transfer Modal -->
+    <div class="modal" id="transferModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Configure Call Transfer</h3>
+                <p>Set up how your agent will transfer calls</p>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>Phone number to transfer to</label>
+                    <input type="tel" class="form-control" id="transferNumber" placeholder="e.g., +1 (555) 123-4567">
+                </div>
+                <div class="form-group">
+                    <label>When should the call transfer take place?</label>
+                    <textarea class="form-control" id="transferTiming" placeholder="e.g., When caller requests to speak with a human, or for technical issues beyond AI capability"></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-cancel" onclick="closeModal('transferModal')">Cancel</button>
+                <button class="btn-save" onclick="saveTransferConfig()">Save Configuration</button>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        let infoItemCount = 0;
+        let knowledgeBases = [];
+        let uploadedFiles = [];
+        let addedUrls = [];
+        
+        function saveAgent() {
+            // Show success message
+            const successMessage = document.getElementById('successMessage');
+            successMessage.style.display = 'block';
+            
+            // Hide message after 3 seconds
+            setTimeout(() => {
+                successMessage.style.display = 'none';
+            }, 3000);
+        }
+        
+        function toggleCollapsible(header) {
+            header.classList.toggle('active');
+            const content = header.nextElementSibling;
+            content.classList.toggle('active');
+        }
+        
+        function addInfoItem() {
+            infoItemCount++;
+            const itemId = `info-item-${infoItemCount}`;
+            const itemHtml = `
+                <div class="info-item" id="${itemId}">
+                    <input type="text" placeholder="Enter information to gather (e.g., name, email, phone number)">
+                    <button class="remove-btn" onclick="removeInfoItem('${itemId}')">Remove</button>
+                </div>
+            `;
+            
+            const container = document.getElementById('infoItemsList');
+            container.insertAdjacentHTML('beforeend', itemHtml);
+        }
+        
+        function removeInfoItem(itemId) {
+            const item = document.getElementById(itemId);
+            if (item) {
+                item.remove();
+            }
+        }
+        
+        function toggleAction(type) {
+            if (type === 'meeting') {
+                const checkbox = document.getElementById('meetingBooking');
+                const configBtn = document.getElementById('configureMeeting');
+                configBtn.style.display = checkbox.checked ? 'block' : 'none';
+            } else if (type === 'transfer') {
+                const checkbox = document.getElementById('callTransfer');
+                const configBtn = document.getElementById('configureTransfer');
+                configBtn.style.display = checkbox.checked ? 'block' : 'none';
+            }
+        }
+        
+        function openMeetingModal() {
+            document.getElementById('meetingModal').style.display = 'block';
+        }
+        
+        function openTransferModal() {
+            document.getElementById('transferModal').style.display = 'block';
+        }
+        
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+        
+        function saveMeetingConfig() {
+            const calendar = document.getElementById('calendarSelect').value;
+            const timing = document.getElementById('meetingTiming').value;
+            
+            // Store the configuration (in a real app, this would be sent to a server)
+            console.log('Meeting config saved:', { calendar, timing });
+            
+            closeModal('meetingModal');
+            
+            // Show a brief success message
+            const successMsg = document.getElementById('successMessage');
+            successMsg.textContent = 'Meeting booking configured successfully!';
+            successMsg.style.display = 'block';
+            setTimeout(() => {
+                successMsg.style.display = 'none';
+                successMsg.textContent = 'Agent configuration saved successfully!';
+            }, 3000);
+        }
+        
+        function saveTransferConfig() {
+            const number = document.getElementById('transferNumber').value;
+            const timing = document.getElementById('transferTiming').value;
+            
+            // Store the configuration (in a real app, this would be sent to a server)
+            console.log('Transfer config saved:', { number, timing });
+            
+            closeModal('transferModal');
+            
+            // Show a brief success message
+            const successMsg = document.getElementById('successMessage');
+            successMsg.textContent = 'Call transfer configured successfully!';
+            successMsg.style.display = 'block';
+            setTimeout(() => {
+                successMsg.style.display = 'none';
+                successMsg.textContent = 'Agent configuration saved successfully!';
+            }, 3000);
+        }
+        
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.style.display = 'none';
+            }
+        }
+        
+        function switchTab(tab) {
+            // Update tab buttons
+            const tabs = document.querySelectorAll('.tab');
+            tabs.forEach(t => t.classList.remove('active'));
+            
+            // Update content
+            if (tab === 'training') {
+                tabs[0].classList.add('active');
+                document.getElementById('trainingContent').style.display = 'block';
+                document.getElementById('knowledgeContent').style.display = 'none';
+            } else if (tab === 'knowledge') {
+                tabs[1].classList.add('active');
+                document.getElementById('trainingContent').style.display = 'none';
+                document.getElementById('knowledgeContent').style.display = 'block';
+            }
+        }
+        
+        function openKnowledgeModal() {
+            document.getElementById('knowledgeModal').style.display = 'block';
+            uploadedFiles = [];
+            addedUrls = [];
+            document.getElementById('fileList').innerHTML = '';
+            document.getElementById('urlList').innerHTML = '';
+            document.getElementById('knowledgeName').value = '';
+            document.getElementById('urlInput').value = '';
+        }
+        
+        function addUrl() {
+            const urlInput = document.getElementById('urlInput');
+            const url = urlInput.value.trim();
+            
+            if (url && isValidUrl(url)) {
+                addedUrls.push(url);
+                updateUrlList();
+                urlInput.value = '';
+            } else {
+                alert('Please enter a valid URL');
+            }
+        }
+        
+        function isValidUrl(string) {
+            try {
+                new URL(string);
+                return true;
+            } catch (_) {
+                return false;
+            }
+        }
+        
+        function updateUrlList() {
+            const urlList = document.getElementById('urlList');
+            urlList.innerHTML = addedUrls.map((url, index) => `
+                <div class="url-item">
+                    <span>${url}</span>
+                    <span class="remove-url" onclick="removeUrl(${index})">×</span>
+                </div>
+            `).join('');
+        }
+        
+        function removeUrl(index) {
+            addedUrls.splice(index, 1);
+            updateUrlList();
+        }
+        
+        function saveKnowledgeBase() {
+            const name = document.getElementById('knowledgeName').value.trim();
+            
+            if (!name) {
+                alert('Please enter a knowledge base name');
+                return;
+            }
+            
+            // Create new knowledge base
+            const newKnowledgeBase = {
+                id: Date.now(),
+                name: name,
+                files: uploadedFiles.length,
+                urls: addedUrls.length,
+                status: 'processing',
+                createdAt: new Date().toLocaleString()
+            };
+            
+            knowledgeBases.push(newKnowledgeBase);
+            updateKnowledgeList();
+            closeModal('knowledgeModal');
+            
+            // Simulate processing
+            setTimeout(() => {
+                const kb = knowledgeBases.find(k => k.id === newKnowledgeBase.id);
+                if (kb) {
+                    kb.status = 'processing';
+                    updateKnowledgeList();
+                }
+            }, 1000);
+        }
+        
+        function updateKnowledgeList() {
+            const knowledgeList = document.getElementById('knowledgeList');
+            
+            if (knowledgeBases.length === 0) {
+                knowledgeList.innerHTML = `
+                    <div class="empty-state">
+                        <p>No knowledge bases created yet. Click "Create Knowledge Base" to get started.</p>
+                    </div>
+                `;
+            } else {
+                knowledgeList.innerHTML = knowledgeBases.map(kb => `
+                    <div class="knowledge-item">
+                        <div class="knowledge-info">
+                            <h4>${kb.name}</h4>
+                            <div class="knowledge-meta">
+                                <span>📄 ${kb.files} files</span>
+                                <span>🔗 ${kb.urls} URLs</span>
+                                <span>📅 ${kb.createdAt}</span>
+                            </div>
+                        </div>
+                        <div class="knowledge-status">
+                            ${kb.status === 'processing' ? `
+                                <div class="status-processing">
+                                    <div class="spinner"></div>
+                                    <span>Processing</span>
+                                </div>
+                                <button class="refresh-btn" onclick="refreshStatus(${kb.id})">
+                                    <span>↻</span>
+                                </button>
+                            ` : `
+                                <div class="status-completed">
+                                    <span>✓</span>
+                                    <span>Completed</span>
+                                </div>
+                            `}
+                        </div>
+                    </div>
+                `).join('');
+            }
+        }
+        
+        function refreshStatus(id) {
+            const kb = knowledgeBases.find(k => k.id === id);
+            if (kb && kb.status === 'processing') {
+                kb.status = 'completed';
+                updateKnowledgeList();
+                
+                // Show success message
+                const successMsg = document.getElementById('successMessage');
+                successMsg.textContent = 'Knowledge base processing completed!';
+                successMsg.style.display = 'block';
+                setTimeout(() => {
+                    successMsg.style.display = 'none';
+                    successMsg.textContent = 'Agent configuration saved successfully!';
+                }, 3000);
+            }
+        }
+        
+        // File upload handling
+        document.addEventListener('DOMContentLoaded', function() {
+            const fileInput = document.getElementById('fileInput');
+            const uploadArea = document.getElementById('uploadArea');
+            
+            if (fileInput) {
+                fileInput.addEventListener('change', function(e) {
+                    const files = Array.from(e.target.files);
+                    uploadedFiles = uploadedFiles.concat(files);
+                    updateFileList();
+                });
+            }
+            
+            // Drag and drop
+            if (uploadArea) {
+                uploadArea.addEventListener('dragover', function(e) {
+                    e.preventDefault();
+                    this.classList.add('dragover');
+                });
+                
+                uploadArea.addEventListener('dragleave', function(e) {
+                    e.preventDefault();
+                    this.classList.remove('dragover');
+                });
+                
+                uploadArea.addEventListener('drop', function(e) {
+                    e.preventDefault();
+                    this.classList.remove('dragover');
+                    
+                    const files = Array.from(e.dataTransfer.files);
+                    uploadedFiles = uploadedFiles.concat(files);
+                    updateFileList();
+                });
+            }
+        });
+        
+        function updateFileList() {
+            const fileList = document.getElementById('fileList');
+            if (uploadedFiles.length > 0) {
+                fileList.innerHTML = `<p style="font-size: 14px; color: #6e6e73;">Selected files: ${uploadedFiles.map(f => f.name).join(', ')}</p>`;
+            }
+        }
+        
+        // Initialize with agent data from sessionStorage
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get agent data from sessionStorage
+            const agentDataStr = sessionStorage.getItem('agentData');
+            
+            if (agentDataStr) {
+                const agentData = JSON.parse(agentDataStr);
+                
+                // Update agent name and avatar
+                document.getElementById('agentNameDisplay').textContent = agentData.name;
+                document.getElementById('agentAvatar').textContent = agentData.avatar;
+                
+                // Update phone number
+                document.getElementById('phoneNumberDisplay').value = agentData.phone;
+            } else {
+                // If no agent data, redirect back to create page
+                window.location.href = 'create-agent.html';
+            }
+        });
+    </script>
+</body>
+</html>

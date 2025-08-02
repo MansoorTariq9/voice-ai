@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inbound Agent Documentation - AI Voice Agents</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #1d1d1f;
+        }
+        
+        .hero-section {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 80px 40px;
+            text-align: center;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .hero-title {
+            font-size: 48px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: fadeInUp 0.8s ease-out;
+        }
+        
+        .hero-subtitle {
+            font-size: 20px;
+            color: #6e6e73;
+            max-width: 800px;
+            margin: 0 auto 40px;
+            line-height: 1.6;
+            animation: fadeInUp 0.8s ease-out 0.2s;
+            animation-fill-mode: both;
+        }
+        
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 24px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 500;
+            transition: all 0.3s;
+            animation: fadeInUp 0.8s ease-out 0.4s;
+            animation-fill-mode: both;
+        }
+        
+        .back-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 60px 40px;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-bottom: 60px;
+            justify-content: center;
+        }
+        
+        /* Center the last item if it's alone in its row */
+        .feature-card:nth-child(4):nth-last-child(1) {
+            grid-column: 1 / -1;
+            max-width: 450px;
+            margin: 0 auto;
+        }
+        
+        .feature-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+            animation: slideIn 0.8s ease-out;
+            animation-fill-mode: both;
+        }
+        
+        .feature-card:nth-child(1) { animation-delay: 0.1s; }
+        .feature-card:nth-child(2) { animation-delay: 0.2s; }
+        .feature-card:nth-child(3) { animation-delay: 0.3s; }
+        .feature-card:nth-child(4) { animation-delay: 0.4s; }
+        
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            transform: scaleX(0);
+            transition: transform 0.3s;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.12);
+        }
+        
+        .feature-card:hover::before {
+            transform: scaleX(1);
+        }
+        
+        .feature-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            margin-bottom: 24px;
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+        }
+        
+        .feature-title {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: #1d1d1f;
+        }
+        
+        .feature-description {
+            font-size: 16px;
+            line-height: 1.6;
+            color: #6e6e73;
+            margin-bottom: 20px;
+        }
+        
+        .feature-list {
+            list-style: none;
+        }
+        
+        .feature-list li {
+            padding: 8px 0;
+            color: #1d1d1f;
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            font-size: 14px;
+        }
+        
+        .feature-list li::before {
+            content: "✓";
+            color: #667eea;
+            font-weight: bold;
+            margin-top: 2px;
+        }
+        
+        .how-it-works {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 60px;
+            margin-bottom: 60px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .how-it-works::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(102, 126, 234, 0.05) 0%, transparent 70%);
+            animation: rotate 30s linear infinite;
+        }
+        
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        .section-title {
+            font-size: 36px;
+            font-weight: 600;
+            text-align: center;
+            margin-bottom: 50px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .steps {
+            display: grid;
+            gap: 30px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .step {
+            display: flex;
+            gap: 30px;
+            align-items: flex-start;
+        }
+        
+        .step-number {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            font-weight: bold;
+            flex-shrink: 0;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        }
+        
+        .step-content h3 {
+            font-size: 20px;
+            margin-bottom: 10px;
+            color: #1d1d1f;
+        }
+        
+        .step-content p {
+            color: #6e6e73;
+            line-height: 1.6;
+        }
+        
+        .capabilities {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 60px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+            text-align: center;
+        }
+        
+        .capability-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 40px;
+        }
+        
+        .capability-tag {
+            padding: 12px 24px;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+            border: 2px solid rgba(102, 126, 234, 0.3);
+            border-radius: 30px;
+            font-weight: 500;
+            color: #667eea;
+            transition: all 0.3s;
+        }
+        
+        .capability-tag:hover {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        .floating-shapes {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: -1;
+            top: 0;
+            left: 0;
+        }
+        
+        .shape {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            animation: float 20s infinite ease-in-out;
+        }
+        
+        .shape1 {
+            width: 300px;
+            height: 300px;
+            top: -150px;
+            left: -150px;
+            animation-delay: 0s;
+        }
+        
+        .shape2 {
+            width: 200px;
+            height: 200px;
+            top: 50%;
+            right: -100px;
+            animation-delay: 5s;
+        }
+        
+        .shape3 {
+            width: 150px;
+            height: 150px;
+            bottom: -75px;
+            left: 30%;
+            animation-delay: 10s;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            33% { transform: translateY(-30px) rotate(120deg); }
+            66% { transform: translateY(30px) rotate(240deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="floating-shapes">
+        <div class="shape shape1"></div>
+        <div class="shape shape2"></div>
+        <div class="shape shape3"></div>
+    </div>
+    
+    <section class="hero-section">
+        <h1 class="hero-title">Inbound Agent Documentation</h1>
+        <p class="hero-subtitle">
+            Learn how our AI-powered inbound agents can transform your customer service experience with intelligent call handling, meeting scheduling, and seamless knowledge integration
+        </p>
+        <a href="index.html" class="back-btn">
+            <span>←</span>
+            <span>Back to Configuration</span>
+        </a>
+    </section>
+    
+    <div class="container">
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">📅</div>
+                <h3 class="feature-title">Meeting Booking</h3>
+                <p class="feature-description">
+                    Your AI agent can seamlessly schedule meetings with callers, checking availability and booking appointments directly into your calendar.
+                </p>
+                <ul class="feature-list">
+                    <li>Real-time calendar integration</li>
+                    <li>Intelligent scheduling based on preferences</li>
+                    <li>Automatic confirmation emails</li>
+                    <li>Timezone handling</li>
+                    <li>Rescheduling capabilities</li>
+                </ul>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">💬</div>
+                <h3 class="feature-title">FAQ Handling</h3>
+                <p class="feature-description">
+                    Instantly answer frequently asked questions with accurate, consistent responses based on your predefined knowledge base.
+                </p>
+                <ul class="feature-list">
+                    <li>Natural language understanding</li>
+                    <li>Context-aware responses</li>
+                    <li>Multi-language support</li>
+                    <li>Learning from interactions</li>
+                    <li>Custom response templates</li>
+                </ul>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">📚</div>
+                <h3 class="feature-title">Knowledge Base Integration</h3>
+                <p class="feature-description">
+                    Access and utilize information from your website, documents, and custom knowledge bases to provide comprehensive answers.
+                </p>
+                <ul class="feature-list">
+                    <li>Website content scraping</li>
+                    <li>Document processing (PDF, DOC, TXT)</li>
+                    <li>URL-based knowledge import</li>
+                    <li>Real-time information updates</li>
+                    <li>Smart content retrieval</li>
+                </ul>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">🔄</div>
+                <h3 class="feature-title">Call Transfer</h3>
+                <p class="feature-description">
+                    Intelligently transfer calls to human agents or specific departments when queries exceed AI capabilities or upon caller request.
+                </p>
+                <ul class="feature-list">
+                    <li>Smart routing based on query type</li>
+                    <li>Seamless handoff with context</li>
+                    <li>Priority-based transfers</li>
+                    <li>Department-specific routing</li>
+                    <li>Call summary for human agents</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="how-it-works">
+            <h2 class="section-title">How It Works</h2>
+            <div class="steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <h3>Configure Your Agent</h3>
+                        <p>Set up your agent's personality, greeting message, and define what information it should collect from callers. Customize the voice and tone to match your brand.</p>
+                    </div>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <h3>Build Your Knowledge Base</h3>
+                        <p>Upload documents, add website URLs, and create custom knowledge bases. The AI will process and understand this information to answer caller questions accurately.</p>
+                    </div>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <h3>Define Actions & Workflows</h3>
+                        <p>Configure what actions your agent can take - from booking meetings to transferring calls. Set up triggers and conditions for each action based on caller needs.</p>
+                    </div>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <div class="step-content">
+                        <h3>Deploy & Monitor</h3>
+                        <p>Activate your agent and start receiving calls. Monitor performance, review conversations, and continuously improve based on real interactions.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="capabilities">
+            <h2 class="section-title">Additional Capabilities</h2>
+            <p style="font-size: 18px; color: #6e6e73; margin-bottom: 40px;">
+                Our inbound agents are equipped with advanced features to handle complex scenarios
+            </p>
+            <div class="capability-tags">
+                <div class="capability-tag">Sentiment Analysis</div>
+                <div class="capability-tag">Multi-language Support</div>
+                <div class="capability-tag">Voice Recognition</div>
+                <div class="capability-tag">Natural Conversations</div>
+                <div class="capability-tag">CRM Integration</div>
+                <div class="capability-tag">Analytics Dashboard</div>
+                <div class="capability-tag">Custom Workflows</div>
+                <div class="capability-tag">API Webhooks</div>
+                <div class="capability-tag">Call Recording</div>
+                <div class="capability-tag">Real-time Transcription</div>
+                <div class="capability-tag">Compliance Tools</div>
+                <div class="capability-tag">24/7 Availability</div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

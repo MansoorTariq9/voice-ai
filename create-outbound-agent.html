@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Outbound Agent - AI Voice Agents</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #1d1d1f;
+        }
+        
+        .create-container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 48px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+            max-width: 500px;
+            width: 90%;
+            animation: fadeInUp 0.5s ease-out;
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .back-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: #667eea;
+            text-decoration: none;
+            font-size: 14px;
+            margin-bottom: 24px;
+            transition: gap 0.2s;
+        }
+        
+        .back-button:hover {
+            gap: 12px;
+        }
+        
+        h1 {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .subtitle {
+            color: #6e6e73;
+            font-size: 16px;
+            margin-bottom: 40px;
+            line-height: 1.5;
+        }
+        
+        .agent-type-indicator {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+            border: 2px solid rgba(102, 126, 234, 0.3);
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .agent-type-icon {
+            font-size: 24px;
+        }
+        
+        .agent-type-info h3 {
+            font-size: 18px;
+            color: #667eea;
+            margin-bottom: 4px;
+        }
+        
+        .agent-type-info p {
+            font-size: 14px;
+            color: #6e6e73;
+        }
+        
+        .form-group {
+            margin-bottom: 24px;
+        }
+        
+        .form-group label {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #1d1d1f;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 14px 16px;
+            border: 2px solid #e5e5e7;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: all 0.2s;
+            background-color: #fafafa;
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: #667eea;
+            background-color: white;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+        
+        .form-helper {
+            font-size: 12px;
+            color: #6e6e73;
+            margin-top: 6px;
+        }
+        
+        .avatar-preview {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-top: 20px;
+            padding: 16px;
+            background-color: #f5f5f7;
+            border-radius: 10px;
+        }
+        
+        .avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 20px;
+            text-transform: uppercase;
+        }
+        
+        .avatar-info {
+            flex: 1;
+        }
+        
+        .avatar-info .label {
+            font-size: 12px;
+            color: #6e6e73;
+            margin-bottom: 4px;
+        }
+        
+        .avatar-info .value {
+            font-size: 16px;
+            font-weight: 600;
+            color: #1d1d1f;
+        }
+        
+        .error-message {
+            color: #ff3b30;
+            font-size: 12px;
+            margin-top: 6px;
+            display: none;
+        }
+        
+        .btn-primary {
+            width: 100%;
+            padding: 16px 32px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-top: 32px;
+        }
+        
+        .btn-primary:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+        }
+        
+        .btn-primary:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+        
+        @media (max-width: 480px) {
+            .create-container {
+                padding: 32px 24px;
+            }
+            
+            h1 {
+                font-size: 28px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="create-container">
+        <a href="outbound-agents.html" class="back-button">
+            <span>←</span>
+            <span>Back to agent selection</span>
+        </a>
+        
+        <h1>Create Outbound Agent</h1>
+        <p class="subtitle" id="subtitleText">Let's start by giving your agent a name.</p>
+        
+        <div class="agent-type-indicator" id="agentTypeIndicator" style="display: none;">
+            <div class="agent-type-icon" id="agentTypeIcon">📱</div>
+            <div class="agent-type-info">
+                <h3 id="agentTypeName">Agent Type</h3>
+                <p id="agentTypeDesc">Description</p>
+            </div>
+        </div>
+        
+        <form id="createAgentForm" onsubmit="handleSubmit(event)">
+            <div class="form-group">
+                <label for="agentName">Agent Name</label>
+                <input 
+                    type="text" 
+                    id="agentName" 
+                    class="form-control" 
+                    placeholder="e.g., Appointment Reminder Bot"
+                    required
+                    oninput="updatePreview()"
+                >
+                <p class="form-helper">This is how your agent will be identified in the system</p>
+            </div>
+            
+            
+            <div class="avatar-preview" id="preview" style="display: none;">
+                <div class="avatar" id="avatarLetter">A</div>
+                <div class="avatar-info">
+                    <div class="label">Preview</div>
+                    <div class="value" id="previewName">Agent Name</div>
+                </div>
+            </div>
+            
+            <button type="submit" class="btn-primary" id="continueBtn">
+                Continue to Configuration →
+            </button>
+        </form>
+    </div>
+    
+    <script>
+        // Get agent type from URL parameters
+        const urlParams = new URLSearchParams(window.location.search);
+        const agentType = urlParams.get('type');
+        
+        // Agent type configurations
+        const agentTypes = {
+            'appointment': {
+                name: 'Appointment Assistant',
+                icon: '📅',
+                desc: 'Reminder & Rescheduling Specialist',
+                placeholder: 'e.g., Dr. Smith Appointment Reminder',
+                configPage: 'appointment-reminder-config.html'
+            },
+            'qualifier': {
+                name: 'Lead Qualifier Pro',
+                icon: '🎯',
+                desc: 'Intelligent Lead Scoring & Booking',
+                placeholder: 'e.g., Sales Lead Qualifier',
+                configPage: 'lead-qualifier-config.html'
+            },
+            'universal': {
+                name: 'Universal Outreach',
+                icon: '🌐',
+                desc: 'Flexible Multi-Purpose Campaigns',
+                placeholder: 'e.g., Customer Feedback Collector',
+                configPage: 'universal-outreach-config.html'
+            }
+        };
+        
+        // Set up the page based on agent type
+        if (agentType && agentTypes[agentType]) {
+            const typeConfig = agentTypes[agentType];
+            document.getElementById('agentTypeIndicator').style.display = 'flex';
+            document.getElementById('agentTypeIcon').textContent = typeConfig.icon;
+            document.getElementById('agentTypeName').textContent = typeConfig.name;
+            document.getElementById('agentTypeDesc').textContent = typeConfig.desc;
+            document.getElementById('agentName').placeholder = typeConfig.placeholder;
+        }
+        
+        function updatePreview() {
+            const agentName = document.getElementById('agentName').value.trim();
+            const preview = document.getElementById('preview');
+            const avatarLetter = document.getElementById('avatarLetter');
+            const previewName = document.getElementById('previewName');
+            
+            if (agentName) {
+                preview.style.display = 'flex';
+                avatarLetter.textContent = agentName.charAt(0).toUpperCase();
+                previewName.textContent = agentName;
+            } else {
+                preview.style.display = 'none';
+            }
+        }
+        
+        function handleSubmit(event) {
+            event.preventDefault();
+            
+            const agentName = document.getElementById('agentName').value.trim();
+            
+            if (!agentName) {
+                return;
+            }
+            
+            // Store the agent data in sessionStorage
+            const agentData = {
+                name: agentName,
+                phone: '+1 (555) 123-4567', // Default phone number
+                avatar: agentName.charAt(0).toUpperCase(),
+                type: agentType,
+                typeConfig: agentTypes[agentType]
+            };
+            
+            sessionStorage.setItem('outboundAgentData', JSON.stringify(agentData));
+            
+            // Redirect to the appropriate configuration page
+            if (agentType && agentTypes[agentType]) {
+                window.location.href = agentTypes[agentType].configPage;
+            } else {
+                // Default fallback
+                window.location.href = 'universal-outreach-config.html';
+            }
+        }
+    </script>
+</body>
+</html>

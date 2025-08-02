@@ -1,0 +1,1329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Appointment Reminder Configuration - AI Voice Agents</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            color: #1d1d1f;
+        }
+        
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(229, 229, 231, 0.5);
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.05);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .header h1 {
+            font-size: 24px;
+            font-weight: 600;
+        }
+        
+        .header .subtitle {
+            color: #6e6e73;
+            font-size: 14px;
+            margin-left: 10px;
+        }
+        
+        .documentation-link {
+            color: #0066cc;
+            text-decoration: none;
+            font-size: 14px;
+            padding: 8px 16px;
+            border: 2px solid #0066cc;
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+        
+        .documentation-link:hover {
+            background-color: #0066cc;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 102, 204, 0.3);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px;
+        }
+        
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            background: linear-gradient(145deg, #ffffff, #f0f0f3);
+            padding: 8px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        }
+        
+        .tab {
+            padding: 10px 20px;
+            border-radius: 6px;
+            background-color: transparent;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            color: #6e6e73;
+            transition: all 0.2s;
+        }
+        
+        .tab.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+        
+        .agent-card {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+            padding: 32px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .agent-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .agent-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .agent-avatar {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 24px;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+            position: relative;
+        }
+        
+        .agent-avatar::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 16px;
+            height: 16px;
+            background-color: #4caf50;
+            border-radius: 50%;
+            border: 3px solid white;
+        }
+        
+        .agent-info h2 {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+        
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            background: linear-gradient(135deg, #4caf50 0%, #45a049 100%);
+            color: white;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+            box-shadow: 0 2px 8px rgba(76, 175, 80, 0.3);
+        }
+        
+        .status-badge::before {
+            content: '●';
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+        
+        .form-section {
+            margin-bottom: 30px;
+            animation: fadeIn 0.8s ease-out;
+            animation-fill-mode: both;
+        }
+        
+        .form-section:nth-child(1) { animation-delay: 0.1s; }
+        .form-section:nth-child(2) { animation-delay: 0.2s; }
+        .form-section:nth-child(3) { animation-delay: 0.3s; }
+        .form-section:nth-child(4) { animation-delay: 0.4s; }
+        .form-section:nth-child(5) { animation-delay: 0.5s; }
+        .form-section:nth-child(6) { animation-delay: 0.6s; }
+        .form-section:nth-child(7) { animation-delay: 0.7s; }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        .form-section h3 {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: #1d1d1f;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .form-section h3::before {
+            content: '';
+            width: 4px;
+            height: 24px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 2px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 8px;
+            color: #1d1d1f;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #e5e5e7;
+            border-radius: 10px;
+            font-size: 14px;
+            transition: all 0.3s;
+            background-color: #fafafa;
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: #667eea;
+            background-color: white;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+            transform: translateY(-1px);
+        }
+        
+        textarea.form-control {
+            resize: vertical;
+            min-height: 100px;
+        }
+        
+        .info-box {
+            background: linear-gradient(135deg, #f5f7fa 0%, #e9ecef 100%);
+            border-left: 4px solid transparent;
+            border-image: linear-gradient(135deg, #667eea 0%, #764ba2 100%) 1;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        
+        .info-box p {
+            font-size: 14px;
+            line-height: 1.6;
+            color: #6e6e73;
+        }
+        
+        .collapsible-section {
+            border: 2px solid rgba(102, 126, 234, 0.2);
+            border-radius: 12px;
+            overflow: hidden;
+            margin-bottom: 20px;
+            background: rgba(255, 255, 255, 0.8);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            transition: all 0.3s;
+        }
+        
+        .collapsible-section:hover {
+            border-color: rgba(102, 126, 234, 0.4);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+        }
+        
+        .collapsible-header {
+            padding: 20px;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            color: #495057;
+            transition: all 0.3s;
+        }
+        
+        .collapsible-header:hover {
+            background: linear-gradient(135deg, #e9ecef 0%, #dee2e6 100%);
+        }
+        
+        .collapsible-content {
+            padding: 16px;
+            border-top: 1px solid #d2d2d7;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 30px;
+        }
+        
+        .btn {
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: none;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+        
+        .btn-primary:hover::before {
+            left: 100%;
+        }
+        
+        .btn-secondary {
+            background-color: #e5e5e7;
+            color: #1d1d1f;
+        }
+        
+        .btn-secondary:hover {
+            background-color: #d2d2d7;
+        }
+        
+        .floating-shapes {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: -1;
+            top: 0;
+            left: 0;
+        }
+        
+        .shape {
+            position: absolute;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+            border-radius: 50%;
+            animation: float 20s infinite ease-in-out;
+        }
+        
+        .shape1 {
+            width: 300px;
+            height: 300px;
+            top: -150px;
+            left: -150px;
+            animation-delay: 0s;
+        }
+        
+        .shape2 {
+            width: 200px;
+            height: 200px;
+            top: 50%;
+            right: -100px;
+            animation-delay: 5s;
+        }
+        
+        .shape3 {
+            width: 150px;
+            height: 150px;
+            bottom: -75px;
+            left: 30%;
+            animation-delay: 10s;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            33% { transform: translateY(-30px) rotate(120deg); }
+            66% { transform: translateY(30px) rotate(240deg); }
+        }
+        
+        .date-input-group {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        
+        .date-input-group input[type="date"] {
+            flex: 1;
+        }
+        
+        .date-input-group input[type="time"] {
+            width: 150px;
+        }
+        
+        .contact-section {
+            background: linear-gradient(145deg, #ffffff, #f0f0f3);
+            border-radius: 12px;
+            padding: 24px;
+            margin-top: 30px;
+        }
+        
+        .contact-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .contact-header h3 {
+            margin: 0;
+        }
+        
+        .btn-add-contacts {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .btn-add-contacts:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+        
+        .contact-list {
+            background: white;
+            border-radius: 8px;
+            padding: 16px;
+            margin-top: 16px;
+            min-height: 200px;
+            border: 2px dashed #e5e5e7;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #6e6e73;
+        }
+        
+        .phone-selection {
+            margin-top: 20px;
+        }
+        
+        .phone-selection label {
+            display: block;
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 8px;
+            color: #1d1d1f;
+        }
+        
+        .phone-selection select {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #e5e5e7;
+            border-radius: 10px;
+            font-size: 14px;
+            background-color: #fafafa;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .phone-selection select:focus {
+            outline: none;
+            border-color: #667eea;
+            background-color: white;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            animation: fadeIn 0.3s;
+        }
+        
+        .modal-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            padding: 32px;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+            width: 90%;
+            max-width: 500px;
+            animation: slideIn 0.3s;
+        }
+        
+        .modal-header {
+            margin-bottom: 24px;
+        }
+        
+        .modal-header h3 {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        
+        .modal-header p {
+            color: #6e6e73;
+            font-size: 14px;
+        }
+        
+        .modal-body {
+            margin-bottom: 24px;
+        }
+        
+        .modal-footer {
+            display: flex;
+            gap: 12px;
+            justify-content: flex-end;
+        }
+        
+        .btn-cancel {
+            padding: 10px 20px;
+            background-color: #e5e5e7;
+            color: #1d1d1f;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        
+        .btn-cancel:hover {
+            background-color: #d2d2d7;
+        }
+        
+        .btn-save {
+            padding: 10px 20px;
+            background-color: #0066cc;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        
+        .btn-save:hover {
+            background-color: #0051a2;
+        }
+        
+        .upload-area {
+            border: 2px dashed #d2d2d7;
+            border-radius: 10px;
+            padding: 30px;
+            text-align: center;
+            background-color: #fafafa;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+        
+        .upload-area:hover {
+            border-color: #667eea;
+            background-color: #f5f7ff;
+        }
+        
+        .upload-area.dragover {
+            border-color: #667eea;
+            background-color: #e8ecff;
+        }
+        
+        .url-list {
+            margin-top: 15px;
+        }
+        
+        .url-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 12px;
+            background-color: #f5f5f7;
+            border-radius: 6px;
+            margin-bottom: 8px;
+        }
+        
+        .remove-url {
+            color: #ff3b30;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        
+        .tab-content {
+            animation: fadeIn 0.5s ease-out;
+        }
+        
+        .knowledge-section {
+            padding: 20px 0;
+        }
+        
+        .knowledge-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+        
+        .knowledge-header h3 {
+            font-size: 24px;
+            margin: 0;
+            color: #1d1d1f;
+        }
+        
+        .knowledge-list {
+            display: grid;
+            gap: 20px;
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #6e6e73;
+            background: linear-gradient(145deg, #ffffff, #f0f0f3);
+            border-radius: 12px;
+            border: 2px dashed #d2d2d7;
+        }
+        
+        .knowledge-item {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 12px;
+            padding: 20px;
+            border: 2px solid rgba(102, 126, 234, 0.2);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s;
+        }
+        
+        .knowledge-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+            border-color: rgba(102, 126, 234, 0.4);
+        }
+        
+        .knowledge-info h4 {
+            font-size: 18px;
+            margin-bottom: 8px;
+            color: #1d1d1f;
+        }
+        
+        .knowledge-meta {
+            display: flex;
+            gap: 20px;
+            font-size: 14px;
+            color: #6e6e73;
+        }
+        
+        .knowledge-status {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .status-processing {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #ff9500;
+            font-weight: 500;
+        }
+        
+        .status-completed {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #4caf50;
+            font-weight: 500;
+        }
+        
+        .spinner {
+            width: 16px;
+            height: 16px;
+            border: 2px solid #f3f3f3;
+            border-top: 2px solid #ff9500;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .refresh-btn {
+            padding: 6px 12px;
+            background-color: #e5e5e7;
+            color: #1d1d1f;
+            border: none;
+            border-radius: 6px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .refresh-btn:hover {
+            background-color: #d2d2d7;
+            transform: rotate(180deg);
+        }
+        
+        .contact-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 12px;
+            background-color: #f5f5f7;
+            border-radius: 6px;
+            margin-bottom: 8px;
+        }
+        
+        .contact-item button {
+            padding: 4px 8px;
+            background-color: #ff3b30;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <div class="floating-shapes">
+        <div class="shape shape1"></div>
+        <div class="shape shape2"></div>
+        <div class="shape shape3"></div>
+    </div>
+    <header class="header">
+        <div>
+            <h1>Agent Configuration <span class="subtitle">Appointment Reminder</span></h1>
+        </div>
+        <a href="#" class="documentation-link">Outbound Agent Documentation</a>
+    </header>
+    
+    <div class="container">
+        <nav class="tabs">
+            <button class="tab" onclick="window.location.href='outbound-agents.html'">← Back to Agents</button>
+            <button class="tab active">Project Settings</button>
+        </nav>
+        
+        <div class="agent-card">
+            <div class="agent-header">
+                <div class="agent-avatar" id="agentAvatar">A</div>
+                <div class="agent-info">
+                    <h2 id="agentNameDisplay">Your Appointment Agent</h2>
+                    <span class="status-badge">Production - Live</span>
+                </div>
+            </div>
+            
+            <div class="tabs">
+                <button class="tab active" onclick="switchTab('config')">🎯 Agent Configuration</button>
+                <button class="tab" onclick="switchTab('knowledge')">📚 Knowledge Base</button>
+            </div>
+            
+            <!-- Configuration Tab Content -->
+            <div id="configContent" class="tab-content active">
+            <!-- Greeting & Call Intro Section -->
+            <div class="form-section">
+                <h3>📞 Greeting & Call Intro</h3>
+                <div class="collapsible-section">
+                    <div class="collapsible-header">
+                        <span>Initial Greeting</span>
+                        <span>▼</span>
+                    </div>
+                    <div class="collapsible-content">
+                        <div class="form-group">
+                            <label>How should the agent greet callers?</label>
+                            <textarea class="form-control" placeholder="Hello, this is {{agent_name}}. Am I speaking with {{client_firstname}}? {{pause}}"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Call Reason & Messaging Section -->
+            <div class="form-section">
+                <h3>💬 Call Reason & Messaging</h3>
+                <div class="collapsible-section">
+                    <div class="collapsible-header">
+                        <span>Reason for Appointment</span>
+                        <span>▼</span>
+                    </div>
+                    <div class="collapsible-content">
+                        <div class="form-group">
+                            <label>What message should be delivered?</label>
+                            <textarea class="form-control" rows="4" placeholder="I'm calling on behalf of {{company_name}} to confirm your appointment with {{representative_name}}, will you be there?"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Cancellation Message</label>
+                            <textarea class="form-control" rows="3" placeholder="Thanks for the letting us know, no worries."></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Meeting Details Section -->
+            <div class="form-section">
+                <h3>📅 Meeting Details</h3>
+                <div class="collapsible-section">
+                    <div class="collapsible-header">
+                        <span>Meeting Date and Time</span>
+                        <span>▼</span>
+                    </div>
+                    <div class="collapsible-content">
+                        <div class="form-group">
+                            <label>Meeting Date & Time</label>
+                            <div class="date-input-group">
+                                <input type="date" class="form-control" id="meetingDate">
+                                <input type="time" class="form-control" id="meetingTime">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Meeting Duration (minutes)</label>
+                            <input type="number" class="form-control" placeholder="30" value="30">
+                        </div>
+                        <div class="form-group">
+                            <label>Calendar</label>
+                            <select class="form-control">
+                                <option>Mansoor Testing Calendar</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Location of Meeting</label>
+                            <input type="text" class="form-control" placeholder="Virtual Meeting">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Voice Mail Section -->
+            <div class="form-section">
+                <h3>📧 Voicemail</h3>
+                <div class="collapsible-section">
+                    <div class="collapsible-header">
+                        <span>Voicemail Message</span>
+                        <span>▼</span>
+                    </div>
+                    <div class="collapsible-content">
+                        <div class="form-group">
+                            <label>Voicemail Message</label>
+                            <textarea class="form-control" rows="4" placeholder="Hello {{client_firstname}}, this is {{agent_name}} calling on behalf of {{representative_name}}, your {{profession}} from {{company_name}}. Is this a good time for a quick chat? {{pause}}"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Contacts Section -->
+            <div class="contact-section">
+                <div class="contact-header">
+                    <h3>👥 Contacts to Call</h3>
+                    <button class="btn-add-contacts" onclick="openContactsModal()">
+                        <i class="fas fa-plus"></i>
+                        Add Contacts
+                    </button>
+                </div>
+                <div class="contact-list">
+                    <p>No contacts added yet. Click "Add Contacts" to upload your contact list.</p>
+                </div>
+                
+                <div class="phone-selection">
+                    <label>Select Outbound Phone Number</label>
+                    <select id="phoneNumberSelect">
+                        <option value="">Select a phone number...</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="action-buttons">
+                <button class="btn btn-primary" onclick="saveAgent()">Save Configuration</button>
+                <button class="btn btn-secondary">Test Agent Call</button>
+            </div>
+            </div>
+            
+            <!-- Knowledge Base Tab Content -->
+            <div id="knowledgeContent" class="tab-content" style="display: none;">
+                <div class="knowledge-section">
+                    <div class="knowledge-header">
+                        <h3>📚 Knowledge Base Management</h3>
+                        <button class="btn btn-primary" onclick="openKnowledgeModal()">+ Create Knowledge Base</button>
+                    </div>
+                    
+                    <div class="knowledge-list" id="knowledgeList">
+                        <!-- Knowledge bases will be listed here -->
+                        <div class="empty-state">
+                            <p>No knowledge bases created yet. Click "Create Knowledge Base" to get started.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Add Contacts Modal -->
+    <div class="modal" id="contactsModal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Add Contacts</h3>
+                <p>Upload a CSV file or add contacts manually</p>
+            </div>
+            <div class="modal-body">
+                <div class="upload-section">
+                    <label>Upload CSV File</label>
+                    <div class="upload-area" onclick="document.getElementById('csvInput').click()">
+                        <input type="file" id="csvInput" accept=".csv" style="display: none;">
+                        <p>📁 Click to upload CSV file</p>
+                        <p style="font-size: 12px; color: #6e6e73;">Format: Name, Phone Number</p>
+                    </div>
+                </div>
+                
+                <div class="form-group" style="margin-top: 20px;">
+                    <label>Or Add Manually</label>
+                    <div style="display: flex; gap: 10px;">
+                        <input type="text" class="form-control" id="manualName" placeholder="Contact Name" style="flex: 1;">
+                        <input type="tel" class="form-control" id="manualPhone" placeholder="Phone Number" style="flex: 1;">
+                        <button class="btn btn-secondary" onclick="addManualContact()">Add</button>
+                    </div>
+                </div>
+                
+                <div id="contactsList" style="margin-top: 20px; max-height: 200px; overflow-y: auto;"></div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-cancel" onclick="closeModal('contactsModal')">Cancel</button>
+                <button class="btn-save" onclick="saveContacts()">Save Contacts</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Knowledge Base Modal -->
+    <div class="modal" id="knowledgeModal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Create Knowledge Base</h3>
+                <p>Upload documents and add URLs to create a knowledge base for your agent</p>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>Knowledge Base Name</label>
+                    <input type="text" class="form-control" id="knowledgeName" placeholder="e.g., Product Documentation">
+                </div>
+                
+                <div class="upload-section">
+                    <label>Upload Documents</label>
+                    <div class="upload-area" id="uploadArea" onclick="document.getElementById('fileInput').click()">
+                        <input type="file" id="fileInput" multiple style="display: none;" accept=".pdf,.doc,.docx,.txt">
+                        <p>📁 Click to upload or drag and drop</p>
+                        <p style="font-size: 12px; color: #6e6e73;">Supported formats: PDF, DOC, DOCX, TXT</p>
+                    </div>
+                    <div id="fileList" style="margin-top: 10px;"></div>
+                </div>
+                
+                <div class="form-group">
+                    <label>Add URLs</label>
+                    <div class="url-input-group" style="display: flex; gap: 10px;">
+                        <input type="url" class="form-control" id="urlInput" placeholder="https://example.com" style="flex: 1;">
+                        <button class="btn btn-secondary" onclick="addUrl()">Add URL</button>
+                    </div>
+                    <div id="urlList" class="url-list"></div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-cancel" onclick="closeModal('knowledgeModal')">Cancel</button>
+                <button class="btn-save" onclick="saveKnowledgeBase()">Create Knowledge Base</button>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        let knowledgeBases = [];
+        let uploadedFiles = [];
+        let addedUrls = [];
+        let contacts = [];
+        
+        // Initialize with agent data from sessionStorage
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get agent data from sessionStorage
+            const agentDataStr = sessionStorage.getItem('outboundAgentData');
+            
+            if (agentDataStr) {
+                const agentData = JSON.parse(agentDataStr);
+                
+                // Update agent name and avatar
+                document.getElementById('agentNameDisplay').textContent = agentData.name;
+                document.getElementById('agentAvatar').textContent = agentData.avatar;
+                
+                // Update phone number in select
+                const phoneSelect = document.getElementById('phoneNumberSelect');
+                const option = document.createElement('option');
+                option.value = agentData.phone;
+                option.textContent = agentData.phone;
+                option.selected = true;
+                phoneSelect.appendChild(option);
+            } else {
+                // If no agent data, redirect back to create page
+                window.location.href = 'create-outbound-agent.html?type=appointment';
+            }
+            
+            // Set default date to tomorrow
+            const tomorrow = new Date();
+            tomorrow.setDate(tomorrow.getDate() + 1);
+            document.getElementById('meetingDate').valueAsDate = tomorrow;
+            document.getElementById('meetingTime').value = '10:00';
+            
+            // Set up file upload handlers
+            const fileInput = document.getElementById('fileInput');
+            const uploadArea = document.getElementById('uploadArea');
+            
+            if (fileInput) {
+                fileInput.addEventListener('change', function(e) {
+                    const files = Array.from(e.target.files);
+                    uploadedFiles = uploadedFiles.concat(files);
+                    updateFileList();
+                });
+            }
+            
+            // Drag and drop for knowledge base
+            if (uploadArea) {
+                uploadArea.addEventListener('dragover', function(e) {
+                    e.preventDefault();
+                    this.classList.add('dragover');
+                });
+                
+                uploadArea.addEventListener('dragleave', function(e) {
+                    e.preventDefault();
+                    this.classList.remove('dragover');
+                });
+                
+                uploadArea.addEventListener('drop', function(e) {
+                    e.preventDefault();
+                    this.classList.remove('dragover');
+                    
+                    const files = Array.from(e.dataTransfer.files);
+                    uploadedFiles = uploadedFiles.concat(files);
+                    updateFileList();
+                });
+            }
+            
+            // CSV upload handler
+            const csvInput = document.getElementById('csvInput');
+            if (csvInput) {
+                csvInput.addEventListener('change', function(e) {
+                    const file = e.target.files[0];
+                    if (file) {
+                        const reader = new FileReader();
+                        reader.onload = function(e) {
+                            const text = e.target.result;
+                            const lines = text.split('\n');
+                            lines.forEach(line => {
+                                const [name, phone] = line.split(',').map(s => s.trim());
+                                if (name && phone) {
+                                    contacts.push({ name, phone });
+                                }
+                            });
+                            updateContactsList();
+                        };
+                        reader.readAsText(file);
+                    }
+                });
+            }
+        });
+        
+        function saveAgent() {
+            // Show success message
+            alert('Appointment reminder agent configuration saved successfully!');
+        }
+        
+        function switchTab(tab) {
+            // Update tab buttons
+            const tabs = document.querySelectorAll('.tab');
+            tabs.forEach(t => t.classList.remove('active'));
+            
+            // Update content
+            if (tab === 'config') {
+                tabs[0].classList.add('active');
+                document.getElementById('configContent').style.display = 'block';
+                document.getElementById('knowledgeContent').style.display = 'none';
+            } else if (tab === 'knowledge') {
+                tabs[1].classList.add('active');
+                document.getElementById('configContent').style.display = 'none';
+                document.getElementById('knowledgeContent').style.display = 'block';
+            }
+        }
+        
+        // Contacts Modal Functions
+        function openContactsModal() {
+            document.getElementById('contactsModal').style.display = 'block';
+        }
+        
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+        
+        function addManualContact() {
+            const name = document.getElementById('manualName').value.trim();
+            const phone = document.getElementById('manualPhone').value.trim();
+            
+            if (name && phone) {
+                contacts.push({ name, phone });
+                updateContactsList();
+                document.getElementById('manualName').value = '';
+                document.getElementById('manualPhone').value = '';
+            }
+        }
+        
+        function updateContactsList() {
+            const contactsList = document.getElementById('contactsList');
+            if (contacts.length > 0) {
+                contactsList.innerHTML = contacts.map((contact, index) => `
+                    <div class="contact-item">
+                        <span>${contact.name} - ${contact.phone}</span>
+                        <button onclick="removeContact(${index})">Remove</button>
+                    </div>
+                `).join('');
+            } else {
+                contactsList.innerHTML = '<p style="text-align: center; color: #6e6e73;">No contacts added</p>';
+            }
+        }
+        
+        function removeContact(index) {
+            contacts.splice(index, 1);
+            updateContactsList();
+        }
+        
+        function saveContacts() {
+            if (contacts.length > 0) {
+                const contactList = document.querySelector('.contact-list');
+                contactList.innerHTML = `<p>${contacts.length} contacts added. Ready to start calling!</p>`;
+            }
+            closeModal('contactsModal');
+        }
+        
+        // Knowledge Base Functions
+        function openKnowledgeModal() {
+            document.getElementById('knowledgeModal').style.display = 'block';
+            uploadedFiles = [];
+            addedUrls = [];
+            document.getElementById('fileList').innerHTML = '';
+            document.getElementById('urlList').innerHTML = '';
+            document.getElementById('knowledgeName').value = '';
+            document.getElementById('urlInput').value = '';
+        }
+        
+        function addUrl() {
+            const urlInput = document.getElementById('urlInput');
+            const url = urlInput.value.trim();
+            
+            if (url && isValidUrl(url)) {
+                addedUrls.push(url);
+                updateUrlList();
+                urlInput.value = '';
+            } else {
+                alert('Please enter a valid URL');
+            }
+        }
+        
+        function isValidUrl(string) {
+            try {
+                new URL(string);
+                return true;
+            } catch (_) {
+                return false;
+            }
+        }
+        
+        function updateUrlList() {
+            const urlList = document.getElementById('urlList');
+            urlList.innerHTML = addedUrls.map((url, index) => `
+                <div class="url-item">
+                    <span>${url}</span>
+                    <span class="remove-url" onclick="removeUrl(${index})">×</span>
+                </div>
+            `).join('');
+        }
+        
+        function removeUrl(index) {
+            addedUrls.splice(index, 1);
+            updateUrlList();
+        }
+        
+        function updateFileList() {
+            const fileList = document.getElementById('fileList');
+            if (uploadedFiles.length > 0) {
+                fileList.innerHTML = `<p style="font-size: 14px; color: #6e6e73;">Selected files: ${uploadedFiles.map(f => f.name).join(', ')}</p>`;
+            }
+        }
+        
+        function saveKnowledgeBase() {
+            const name = document.getElementById('knowledgeName').value.trim();
+            
+            if (!name) {
+                alert('Please enter a knowledge base name');
+                return;
+            }
+            
+            // Create new knowledge base
+            const newKnowledgeBase = {
+                id: Date.now(),
+                name: name,
+                files: uploadedFiles.length,
+                urls: addedUrls.length,
+                status: 'processing',
+                createdAt: new Date().toLocaleString()
+            };
+            
+            knowledgeBases.push(newKnowledgeBase);
+            updateKnowledgeList();
+            closeModal('knowledgeModal');
+            
+            // Simulate processing
+            setTimeout(() => {
+                const kb = knowledgeBases.find(k => k.id === newKnowledgeBase.id);
+                if (kb) {
+                    kb.status = 'processing';
+                    updateKnowledgeList();
+                }
+            }, 1000);
+        }
+        
+        function updateKnowledgeList() {
+            const knowledgeList = document.getElementById('knowledgeList');
+            
+            if (knowledgeBases.length === 0) {
+                knowledgeList.innerHTML = `
+                    <div class="empty-state">
+                        <p>No knowledge bases created yet. Click "Create Knowledge Base" to get started.</p>
+                    </div>
+                `;
+            } else {
+                knowledgeList.innerHTML = knowledgeBases.map(kb => `
+                    <div class="knowledge-item">
+                        <div class="knowledge-info">
+                            <h4>${kb.name}</h4>
+                            <div class="knowledge-meta">
+                                <span>📄 ${kb.files} files</span>
+                                <span>🔗 ${kb.urls} URLs</span>
+                                <span>📅 ${kb.createdAt}</span>
+                            </div>
+                        </div>
+                        <div class="knowledge-status">
+                            ${kb.status === 'processing' ? `
+                                <div class="status-processing">
+                                    <div class="spinner"></div>
+                                    <span>Processing</span>
+                                </div>
+                                <button class="refresh-btn" onclick="refreshStatus(${kb.id})">
+                                    <span>↻</span>
+                                </button>
+                            ` : `
+                                <div class="status-completed">
+                                    <span>✓</span>
+                                    <span>Completed</span>
+                                </div>
+                            `}
+                        </div>
+                    </div>
+                `).join('');
+            }
+        }
+        
+        function refreshStatus(id) {
+            const kb = knowledgeBases.find(k => k.id === id);
+            if (kb && kb.status === 'processing') {
+                kb.status = 'completed';
+                updateKnowledgeList();
+                
+                // Show success message
+                alert('Knowledge base processing completed!');
+            }
+        }
+        
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.style.display = 'none';
+            }
+        }
+    </script>
+</body>
+</html>
